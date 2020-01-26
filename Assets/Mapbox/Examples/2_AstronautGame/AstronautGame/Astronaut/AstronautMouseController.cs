@@ -26,8 +26,8 @@ namespace Mapbox.Examples
 		Transform endPoint;
 		[SerializeField]
 		AbstractMap map;
-		[SerializeField]
-		GameObject rayPlane;
+		//[SerializeField]
+		//GameObject rayPlane;
 		[SerializeField]
 		Transform _movementEndPoint;
 
@@ -85,7 +85,11 @@ namespace Mapbox.Examples
 					MovementEndpointControl(hit.point, true);
 
 					directions.Query(GetPositions, startPoint, endPoint, map);
-				}
+                }
+                else
+                {
+                    Debug.Log("No hit");
+                }
 			}
 		}
 
@@ -225,11 +229,11 @@ namespace Mapbox.Examples
                 {
                     var realtiveSpeed = range * camMovementSpeedMultiplier;
                     deltaPos = transform.position - camContainer.transform.position;
-                    //deltaPos.y = 0;
+                    
                     deltaPos = deltaPos.normalized;
                     
                     camContainer.transform.Translate(deltaPos * realtiveSpeed * Time.deltaTime, Space.World);
-                   // cam.transform.position = Vector3.Lerp(cam.transform.position, cam.transform.position + deltaPos, Time.time);
+                  
                     previousPos = transform.position;
                 }
             }
@@ -264,8 +268,11 @@ namespace Mapbox.Examples
 
 		void MovementEndpointControl(Vector3 pos, bool active)
 		{
-			_movementEndPoint.position = new Vector3(pos.x, 0.2f, pos.z);
-			_movementEndPoint.gameObject.SetActive(active);
+            var endpoint = new Vector3(pos.x, pos.y + 0.2f, pos.z); ;
+            Debug.Log("x:"+pos.x+ "y:" + pos.y + "z:" + pos.z );
+            _movementEndPoint.position = endpoint;
+
+            _movementEndPoint.gameObject.SetActive(active);
 		}
 		#endregion
 	}
