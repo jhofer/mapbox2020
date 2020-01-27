@@ -10,10 +10,13 @@ namespace Mapbox.Examples
 		[SerializeField]
 		private AbstractMap _map;
 
-		/// <summary>
-		/// The rate at which the transform's position tries catch up to the provided location.
-		/// </summary>
-		[SerializeField]
+        [SerializeField]
+        private MapUtils mapUtils;
+
+        /// <summary>
+        /// The rate at which the transform's position tries catch up to the provided location.
+        /// </summary>
+        [SerializeField]
 		float _positionFollowFactor;
 
 		/// <summary>
@@ -74,7 +77,7 @@ namespace Mapbox.Examples
 		{
 			if (_isInitialized && location.IsLocationUpdated)
 			{
-				_targetPosition = _map.GeoToWorldPosition(location.LatitudeLongitude);
+				_targetPosition = mapUtils.GetVectorOnMap(location);
 			}
 		}
 

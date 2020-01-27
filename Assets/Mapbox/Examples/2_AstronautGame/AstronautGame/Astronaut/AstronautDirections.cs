@@ -28,6 +28,9 @@ namespace Mapbox.Examples
         [SerializeField]
         UnitType unitType;
 
+        [SerializeField]
+        public MapUtils mapUtils;
+
         void Awake()
 		{
 			_directions = MapboxAccess.Instance.Directions;
@@ -72,7 +75,7 @@ namespace Mapbox.Examples
             {
                 var lat = point.x;
                 var lon = point.y;
-                Vector3 withHeight = GetVectorOnMap(lat, lon);
+                Vector3 withHeight = mapUtils.GetVectorOnMap(lat, lon);
 
                 Debug.Log("add withHeight x:" + withHeight.x + " y:" + withHeight.y + " z:" + withHeight.z);
                 dat.Add(withHeight);
@@ -81,31 +84,6 @@ namespace Mapbox.Examples
             callback(dat);
 		}
 
-        private Vector3 GetVectorOnMap(double lat, double lon)
-        {
-            //get tile ID
-            var tileIDUnwrapped = TileCover.CoordinateToTileId(new Mapbox.Utils.Vector2d(lat, lon), (int)_map.Zoom);
-
-            //get tile
-            UnityTile tile = _map.MapVisualizer.GetUnityTileFromUnwrappedTileId(tileIDUnwrapped);
-
-
-            //lat lon to meters because the tiles rect is also in meters
-            Vector2d v2d = Conversions.LatLonToMeters(new Mapbox.Utils.Vector2d(lat, lon));
-            //get the origin of the tile in meters
-            Vector2d v2dcenter = tile.Rect.Center - new Mapbox.Utils.Vector2d(tile.Rect.Size.x / 2, tile.Rect.Size.y / 2);
-            //offset between the tile origin and the lat lon point
-            Vector2d diff = v2d - v2dcenter;
-
-            //maping the diffetences to (0-1)
-            float Dx = (float)(diff.x / tile.Rect.Size.x);
-            float Dy = (float)(diff.y / tile.Rect.Size.y);
-
-
-            var location = Conversions.GeoToWorldPosition(lat, lon, _map.CenterMercator, _map.WorldRelativeScale).ToVector3xz();
-            var height = tile.QueryHeightData(Dx, Dy);
-            var withHeight = new Vector3(location.x, height, location.z);
-            return withHeight;
-        }
+        
     }
 }
