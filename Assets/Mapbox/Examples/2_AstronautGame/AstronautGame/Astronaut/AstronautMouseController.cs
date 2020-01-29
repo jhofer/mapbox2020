@@ -56,7 +56,7 @@ namespace Mapbox.Examples
 			if (characterDisabled)
 				return;
 
-			CamControl();
+			
 
 			bool click = false;
 
@@ -185,6 +185,7 @@ namespace Mapbox.Examples
         void OnMouseDown()
         {
             AstronautMouseController.ResetEveryFocus();
+            
             this.focus = true;
             this.focusTime = Time.time; 
 
@@ -215,30 +216,12 @@ namespace Mapbox.Examples
         int camMovementSpeedMultiplier=2;
         [SerializeField]
         double camRange = 0.5;
-        Vector3 previousPos = Vector3.zero;
+     
 		Vector3 deltaPos = Vector3.zero;
         private bool focus;
         private float focusTime;
 
-        void CamControl()
-		{
-            if (focus)
-            {
-                var range = Vector3.Distance(camContainer.transform.position, transform.position);
-                if (range >= camRange)
-                {
-                    var realtiveSpeed = range * camMovementSpeedMultiplier;
-                    deltaPos = transform.position - camContainer.transform.position;
-                    
-                    deltaPos = deltaPos.normalized;
-                    
-                    camContainer.transform.Translate(deltaPos * realtiveSpeed * Time.deltaTime, Space.World);
-                  
-                    previousPos = transform.position;
-                }
-            }
-		
-		}
+     
 		#endregion
 
 		#region Utility

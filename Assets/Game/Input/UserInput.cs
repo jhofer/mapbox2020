@@ -10,68 +10,72 @@ public class UserInput : MonoBehaviour
     public Transform cameraContainer;
     private RotateGestureRecognizer rotateGesture;
     private SwipeGestureRecognizer upSwipeGesture;
-    private LongPressGestureRecognizer longPressGesture;
-    private float lastY;
+    private ScaleGestureRecognizer scaleGesture;
+  
+
+    [SerializeField]
+    public float maxCamHeight = 350;
+
+    public float topDownStart = 100;
+
+    [SerializeField]
+    public float minCamHeight = 15;
 
     // Start is called before the first frame update
     void Start()
     {
-        CreateDoubleTapGesture();
-        CreateTapGesture();
-        CreateSwipeGesture();
-        CreatePanGesture();
-        CreateScaleGesture();
+      
         CreateRotateGesture();
-        CreateLongPressGesture();
+        CreateScaleGesture();
     }
 
-    private void CreateLongPressGesture()
+  
+
+
+    private void CreateScaleGesture()
     {
-        longPressGesture = new LongPressGestureRecognizer();
-        longPressGesture.MaximumNumberOfTouchesToTrack = 1;
-        longPressGesture.StateUpdated += LongPressGestureCallback;
-        FingersScript.Instance.AddGesture(longPressGesture);
-    }
-
-    private void LongPressGestureCallback(GestureRecognizer gesture)
-    {
-
-
-        if (gesture.State == GestureRecognizerState.Began)
-        {
-            this.lastY = gesture.FocusY;
-
-        }
-        else if (gesture.State == GestureRecognizerState.Executing)
-        {
-            var delta = lastY - gesture.FocusY;
-
-            float speed = delta / 10;
-            var currentHeight = Camera.main.transform.localPosition.y;
-            var sum = currentHeight + speed;
-            Debug.Log(currentHeight);
-            Debug.Log(speed);
-            Debug.Log(sum);
-            if((sum > 15 || speed > 0) && (sum < 30 || speed <0))
-            {
-                Camera.main.transform.Translate(Vector3.up * speed, Space.World);
-
-            }
-            lastY = gesture.FocusY;
-        }
-
-
-       
+        scaleGesture = new ScaleGestureRecognizer();
+        scaleGesture.StateUpdated += AdjustCamHeight;
+        FingersScript.Instance.AddGesture(scaleGesture);
     }
 
     private void CreateRotateGesture()
     {
         rotateGesture = new RotateGestureRecognizer();
-        rotateGesture.StateUpdated += RotateGestureCallback;
+        rotateGesture.StateUpdated += RotateCam;
         FingersScript.Instance.AddGesture(rotateGesture);
     }
 
-    private void RotateGestureCallback(GestureRecognizer gesture)
+    private void AdjustCamHeight(GestureRecognizer gesture)
+    {
+                 
+        if (gesture.State == GestureRecognizerState.Executing)
+        {
+            var delta = scaleGesture.ScaleMultiplierRange;
+            var currentHeight = Camera.main.transform.localPosition.y;
+            float speed = (delta* currentHeight)/ 100;
+            var sum = currentHeight + speed;
+            Debug.Log(currentHeight);
+            Debug.Log(speed);
+            Debug.Log(sum);
+            var isInRange = (sum > minCamHeight || speed > 0) && (sum < maxCamHeight || speed < 0);
+            if (isInRange)
+            {
+                Camera.main.transform.Translate(Vector3.up * speed, Space.World);
+             
+                Camera.main.transform.LookAt(cameraContainer);
+
+               
+                            
+
+            }
+
+        }
+    }
+
+
+
+    private void RotateCam(GestureRecognizer gesture)
     {
         if (gesture.State == GestureRecognizerState.Executing)
         {
@@ -79,43 +83,12 @@ public class UserInput : MonoBehaviour
         }
     }
 
-    private void CreateScaleGesture()
-    {
-
-    }
-
-    private void CreatePanGesture()
-    {
-
-    }
-
-    private void CreateSwipeGesture()
-    {
-
-            upSwipeGesture = new SwipeGestureRecognizer();
-            upSwipeGesture.Direction = SwipeGestureRecognizerDirection.Any;
-            upSwipeGesture.MinimumNumberOfTouchesToTrack = 2;
-            upSwipeGesture.StateUpdated += SwipeGestureCallback;
-            upSwipeGesture.DirectionThreshold = 1.0f; // allow a swipe, regardless of slope
-            FingersScript.Instance.AddGesture(upSwipeGesture);
-
-    }
-
-    private void SwipeGestureCallback(GestureRecognizer gesture)
-    {
-
-    }
-
-    private void CreateTapGesture()
-    {
-
-    }
-
-    private void CreateDoubleTapGesture()
-    {
 
 
-    }
+  
+
+
+ 
 
     // Update is called once per frame
     void Update()
