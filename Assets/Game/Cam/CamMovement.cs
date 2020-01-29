@@ -5,6 +5,8 @@ using UnityEngine;
 public class CamMovement : MonoBehaviour
 {
     [SerializeField]
+    public MapUtils mapUtils;
+    [SerializeField]
     GameObject target;
     [SerializeField]
     int camMovementSpeedMultiplier = 2;
@@ -32,16 +34,24 @@ public class CamMovement : MonoBehaviour
     {
         if (target != null && target.activeSelf)
         {
+
             var targetPos = target.transform.position;
+            if (target.TryGetComponent<Building>(out var building))
+            {
+                targetPos = target.transform.TransformPoint(target.GetComponent<BoxCollider>().center);// mapUtils.AdjustHeight(target.GetComponent<BoxCollider>().center..position);
+
+
+            }
             var range = Vector3.Distance(transform.position, targetPos);
-                 
+
             if (range >= camRange)
             {
+               
                 var realtiveSpeed = range * camMovementSpeedMultiplier;
-                deltaPos = transform.position - targetPos;
-                deltaPos = deltaPos.normalized;
-                transform.Translate(deltaPos * realtiveSpeed * Time.deltaTime, Space.World);
-                previousPos = targetPos;
+
+                transform.position = Vector3.MoveTowards(transform.position, targetPos, realtiveSpeed * Time.deltaTime);
+
+             
             }
         }
      

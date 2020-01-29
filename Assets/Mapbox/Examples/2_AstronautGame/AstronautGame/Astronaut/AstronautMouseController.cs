@@ -76,7 +76,7 @@ namespace Mapbox.Examples
 
 			if (click&focus& isNotFocusClick)
 			{
-				ray = camContainer.GetComponentInChildren<Camera>().ScreenPointToRay(Input.mousePosition);
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 				if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
 				{

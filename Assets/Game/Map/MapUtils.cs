@@ -41,6 +41,17 @@ public class MapUtils : MonoBehaviour
         return withHeight;
     }
 
+    public Vector3 AdjustHeight(Vector3 pos)
+    {
+        var latlong = pos.GetGeoPosition(map.CenterMercator, map.WorldRelativeScale);
+        return GetVectorOnMap(latlong);
+    }
+
+    public Vector3 GetVectorOnMap(Vector2d latlong)
+    {
+        return GetVectorOnMap(latlong.x, latlong.y);
+    }
+
     public Vector3 GetVectorOnMap(Location location)
     {
         return GetVectorOnMap(location.LatitudeLongitude.x, location.LatitudeLongitude.y);
