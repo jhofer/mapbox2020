@@ -7,41 +7,51 @@ public class CamMovement : MonoBehaviour
     [SerializeField]
     public MapUtils mapUtils;
     [SerializeField]
-    GameObject target;
+    Vector3 targetPos;
     [SerializeField]
     int camMovementSpeedMultiplier = 2;
     [SerializeField]
     double camRange = 0.5;
+
+    
+
     Vector3 previousPos = Vector3.zero;
     Vector3 deltaPos = Vector3.zero;
     private bool focus;
     private float focusTime;
+    private Transform targetTransform;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        targetTransform = transform;
         Camera.main.transform.LookAt(this.transform);
     }
 
-    public void SetTarget(GameObject target)
+    public void SetTarget(Vector3 target)
     {
-        this.target = target;
+        targetTransform = null;
+        this.targetPos = target;
+    }
+
+    public void SetTarget(Transform targetTransform)
+    {
+        this.targetTransform = targetTransform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (target != null && target.activeSelf)
+        if (targetTransform != null)
         {
+            targetPos = targetTransform.position;
+        }
 
-            var targetPos = target.transform.position;
-            if (target.TryGetComponent<Building>(out var building))
-            {
-                targetPos = target.transform.TransformPoint(target.GetComponent<BoxCollider>().center);// mapUtils.AdjustHeight(target.GetComponent<BoxCollider>().center..position);
-
-
-            }
+        if (targetPos != default(Vector3))
+        {
+                    
+            
             var range = Vector3.Distance(transform.position, targetPos);
 
             if (range >= camRange)

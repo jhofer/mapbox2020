@@ -51,17 +51,23 @@ public class UserInput : MonoBehaviour
             RaycastHit hit;
 
 
-            if (Physics.Raycast(ray, out hit, Camera.main.transform.localPosition.y+100))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
+                var camMovement = cameraContainer.GetComponent<CamMovement>();
                 var terrainLayer = 10;
                 var go = hit.transform.gameObject;
                 Debug.Log("Tap on " + go.name);
-                if (go.TryGetComponent<IEntity>(out IEntity entity))
+                if (go.TryGetComponent<BaseUnit>(out BaseUnit unit))
                 {
 
-                    var camMovement = cameraContainer.GetComponent<CamMovement>();
-                    camMovement.SetTarget(go);
+                    camMovement.SetTarget(unit.transform);
                 }
+                else
+                {
+                   
+                    camMovement.SetTarget(hit.point);
+                }
+                
 
             }
             else
@@ -95,7 +101,7 @@ public class UserInput : MonoBehaviour
         {
             var delta = scaleGesture.ScaleMultiplierRange;
             var currentHeight = Camera.main.transform.localPosition.y;
-            float speed = (delta* currentHeight)/ 100;
+            float speed = delta* (currentHeight/ 100);
             var sum = currentHeight + speed;
             Debug.Log(currentHeight);
             Debug.Log(speed);
@@ -104,10 +110,9 @@ public class UserInput : MonoBehaviour
             if (isInRange)
             {
                 Camera.main.transform.Translate(Vector3.up * speed, Space.World);
-             
+            
                 Camera.main.transform.LookAt(cameraContainer.transform);
-
-               
+                        
                             
 
             }
