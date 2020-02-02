@@ -14,21 +14,41 @@ public class UserInput : MonoBehaviour
     private TapGestureRecognizer tapGesture;
   
 
-    [SerializeField]
-    public float maxCamHeight = 350;
-
-    public float topDownStart = 100;
-
-    [SerializeField]
-    public float minCamHeight = 15;
+  
+    private PanGestureRecognizer panGesture;
+    private CamMovement camMovement;
 
     // Start is called before the first frame update
     void Start()
     {
-      
+         this.camMovement = cameraContainer.GetComponent<CamMovement>();
+
         CreateRotateGesture();
         CreateScaleGesture();
         CreateTapGesture();
+        CreatePanGesture();
+    }
+
+    private void CreatePanGesture()
+    {
+       panGesture  = new PanGestureRecognizer();
+       panGesture.StateUpdated += MoveMap;
+       FingersScript.Instance.AddGesture(panGesture);
+
+    }
+
+    private void MoveMap(GestureRecognizer gesture)
+    {
+        if (gesture.State == GestureRecognizerState.Executing)
+        {
+           
+            float deltaX = panGesture.DeltaX / 25.0f;
+            float deltaY = panGesture.DeltaY / 25.0f;
+            var movment = new Vector2(deltaX, deltaY);
+            CamMovement.Instance.Move(movment);
+          
+          
+        }
     }
 
     private void CreateTapGesture()
@@ -53,7 +73,7 @@ public class UserInput : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                var camMovement = cameraContainer.GetComponent<CamMovement>();
+              
                 var terrainLayer = 10;
                 var go = hit.transform.gameObject;
                 Debug.Log("Tap on " + go.name);
@@ -65,7 +85,7 @@ public class UserInput : MonoBehaviour
                 else
                 {
                    
-                    camMovement.SetTarget(hit.point);
+                   // camMovement.SetTarget(hit.point);
                 }
                 
 
@@ -100,22 +120,10 @@ public class UserInput : MonoBehaviour
         if (gesture.State == GestureRecognizerState.Executing)
         {
             var delta = scaleGesture.ScaleMultiplierRange;
-            var currentHeight = Camera.main.transform.localPosition.y;
-            float speed = delta* (currentHeight/ 100);
-            var sum = currentHeight + speed;
-            Debug.Log(currentHeight);
-            Debug.Log(speed);
-            Debug.Log(sum);
-            var isInRange = (sum > minCamHeight || speed > 0) && (sum < maxCamHeight || speed < 0);
-            if (isInRange)
-            {
-                Camera.main.transform.Translate(Vector3.up * speed, Space.World);
-            
-                Camera.main.transform.LookAt(cameraContainer.transform);
-                        
-                            
+           
+            camMovement.Elevate(delta);
 
-            }
+           
 
         }
     }
@@ -126,6 +134,7 @@ public class UserInput : MonoBehaviour
     {
         if (gesture.State == GestureRecognizerState.Executing)
         {
+
             cameraContainer.transform.Rotate(0.0f, rotateGesture.RotationRadiansDelta * Mathf.Rad2Deg,0.0f );
         }
     }
