@@ -41,7 +41,7 @@ public class UserInput : MonoBehaviour
     {
         if (gesture.State == GestureRecognizerState.Executing)
         {
-           
+            Debug.Log("Move map");
             float deltaX = panGesture.DeltaX / 25.0f;
             float deltaY = panGesture.DeltaY / 25.0f;
             var movment = new Vector2(deltaX, deltaY);
