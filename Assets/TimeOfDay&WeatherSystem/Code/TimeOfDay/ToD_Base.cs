@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// Base: Time of Day
@@ -227,6 +228,7 @@ public class ToD_Base : MonoBehaviour
     /// </summary>
     void Start()
     {
+        _iStartHour = DateTime.Now.Hour;
         _fStartingHour = ONEHOURLENGTH * (float)_iStartHour;
         _fCurrentTimeOfDay = _fStartingHour;
 
