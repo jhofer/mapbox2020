@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapUtils : MonoBehaviour
+public class MapUtils : BaseSingleton<MapUtils>
 {
     [SerializeField]
     public AbstractMap map;
@@ -18,7 +18,25 @@ public class MapUtils : MonoBehaviour
     {
         //get tile ID
         var tileIDUnwrapped = TileCover.CoordinateToTileId(new Mapbox.Utils.Vector2d(lat, lon), (int)map.Zoom);
+        var isTileLoaded = map.MapVisualizer.ActiveTiles.ContainsKey(tileIDUnwrapped);
+        var location = Conversions.GeoToWorldPosition(lat, lon, map.CenterMercator, map.WorldRelativeScale).ToVector3xz();
+        float height = 0;
 
+        if (isTileLoaded)
+        {
+            Debug.Log("Tile Is active load height");
+            height = GetHeight(lat, lon, tileIDUnwrapped);
+        }
+
+        var withHeight = new Vector3(location.x, height, location.z);
+            return withHeight;
+
+
+    }
+
+    private float GetHeight(double lat, double lon, UnwrappedTileId tileIDUnwrapped)
+    {
+        float height;
         //get tile
         UnityTile tile = map.MapVisualizer.GetUnityTileFromUnwrappedTileId(tileIDUnwrapped);
 
@@ -34,11 +52,8 @@ public class MapUtils : MonoBehaviour
         float Dx = (float)(diff.x / tile.Rect.Size.x);
         float Dy = (float)(diff.y / tile.Rect.Size.y);
 
-
-        var location = Conversions.GeoToWorldPosition(lat, lon, map.CenterMercator, map.WorldRelativeScale).ToVector3xz();
-        var height = tile.QueryHeightData(Dx, Dy);
-        var withHeight = new Vector3(location.x, height, location.z);
-        return withHeight;
+        height = tile.QueryHeightData(Dx, Dy);
+        return height;
     }
 
     public Vector3 AdjustHeight(Vector3 pos)

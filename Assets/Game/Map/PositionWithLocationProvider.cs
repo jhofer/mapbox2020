@@ -1,17 +1,17 @@
 namespace Mapbox.Examples
 {
-	using Mapbox.Unity.Location;
-	using Mapbox.Unity.Utilities;
-	using Mapbox.Unity.Map;
-	using UnityEngine;
+    using Mapbox.Unity.Location;
+    using Mapbox.Unity.Utilities;
+    using Mapbox.Unity.Map;
+    using UnityEngine;
+    using Mapbox.Unity.MeshGeneration.Data;
+    using System;
 
-	public class PositionWithLocationProvider : MonoBehaviour
+    public class PositionWithLocationProvider : MonoBehaviour
 	{
 		[SerializeField]
 		private AbstractMap _map;
 
-        [SerializeField]
-        private MapUtils mapUtils;
 
         /// <summary>
         /// The rate at which the transform's position tries catch up to the provided location.
@@ -57,15 +57,27 @@ namespace Mapbox.Examples
 			}
 		}
 
-		Vector3 _targetPosition;
+        public MapUtils MapUtils { get; private set; }
 
-		void Start()
+        Vector3 _targetPosition;
+        private Location location;
+
+        void Start()
 		{
 			LocationProvider.OnLocationUpdated += LocationProvider_OnLocationUpdated;
 			_map.OnInitialized += () => _isInitialized = true;
+            _map.MapVisualizer.OnTileHeightProcessingFinished += HightProcessed;
+
+            MapUtils = MapUtils.Instance;
 		}
 
-		void OnDestroy()
+        private void HightProcessed(UnityTile obj)
+        {
+            Debug.Log("HightProcessed");
+            _targetPosition = MapUtils.GetVectorOnMap(location);
+        }
+
+        void OnDestroy()
 		{
 			if (LocationProvider != null)
 			{
@@ -75,9 +87,12 @@ namespace Mapbox.Examples
 
 		void LocationProvider_OnLocationUpdated(Location location)
 		{
-			if (_isInitialized && location.IsLocationUpdated)
+            this.location = location;
+
+
+            if (_isInitialized && location.IsLocationUpdated)
 			{
-				_targetPosition = mapUtils.GetVectorOnMap(location);
+				_targetPosition = MapUtils.GetVectorOnMap(location);
 			}
 		}
 

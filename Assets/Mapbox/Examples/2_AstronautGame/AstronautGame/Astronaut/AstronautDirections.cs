@@ -28,8 +28,7 @@ namespace Mapbox.Examples
         [SerializeField]
         UnitType unitType;
 
-        [SerializeField]
-        public MapUtils mapUtils;
+    
 
         void Awake()
 		{
@@ -75,7 +74,7 @@ namespace Mapbox.Examples
             {
                 var lat = point.x;
                 var lon = point.y;
-                Vector3 withHeight = mapUtils.GetVectorOnMap(lat, lon);
+                Vector3 withHeight = MapUtils.Instance.GetVectorOnMap(lat, lon);
 
                 Debug.Log("add withHeight x:" + withHeight.x + " y:" + withHeight.y + " z:" + withHeight.z);
                 dat.Add(withHeight);

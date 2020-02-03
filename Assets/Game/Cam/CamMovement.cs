@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CamMovement : BaseSingleton<CamMovement>
 {
-    [SerializeField]
-    public MapUtils mapUtils;
+
+  
     [SerializeField]
     Vector3 targetPos;
     [SerializeField]
@@ -33,6 +33,7 @@ public class CamMovement : BaseSingleton<CamMovement>
     // Start is called before the first frame update
     void Start()
     {
+       
         targetTransform = transform;
         Camera.main.transform.LookAt(this.transform);
     }
