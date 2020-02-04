@@ -15,6 +15,7 @@ ehthumbs.db
 # ====== #
 # Common #
 # ====== #
+/cache/
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/

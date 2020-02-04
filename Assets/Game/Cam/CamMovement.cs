@@ -83,8 +83,7 @@ public class CamMovement : BaseSingleton<CamMovement>
 
         var forwardAmount = movment.y * Time.deltaTime * camMovementSpeedMultiplier* (currentHeight / 100) ;
         var sideAmount = movment.x * Time.deltaTime * camMovementSpeedMultiplier* (currentHeight / 100) ;
-        Debug.Log("forwardAmount "+ forwardAmount);
-        Debug.Log("sideAmount " + sideAmount);
+       
         var forwardMovent =  transform.forward * forwardAmount;
         var sideMovment =  transform.right * sideAmount;
         transform.position = transform.position+forwardMovent + sideMovment;
@@ -97,9 +96,7 @@ public class CamMovement : BaseSingleton<CamMovement>
         var speed = camMovementSpeedMultiplier * Time.deltaTime * 3;
         float range = (delta * -1) * (currentHeight / 100)* speed ;
         var sum = currentHeight + range;
-        Debug.Log(currentHeight);
-        Debug.Log(range);
-        Debug.Log(sum);
+     
         var isInRange = (sum > minCamHeight || range > 0) && (sum < maxCamHeight || range < 0);
         if (isInRange)
         {

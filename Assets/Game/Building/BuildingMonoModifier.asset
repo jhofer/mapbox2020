@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Active: 1
   _types:
-  - _typeString: BuildingHighlight
-    _script: {fileID: 11500000, guid: a5504628d5205a048acb3bf4ac4cccc0, type: 3}
   - _typeString: cakeslice.Outline
     _script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
   - _typeString: Building

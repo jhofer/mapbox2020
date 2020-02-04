@@ -1,5 +1,4 @@
-namespace Mapbox.Examples
-{
+
     using Mapbox.Unity.Location;
     using Mapbox.Unity.Utilities;
     using Mapbox.Unity.Map;
@@ -12,6 +11,8 @@ namespace Mapbox.Examples
 		[SerializeField]
 		private AbstractMap _map;
 
+        [SerializeField]
+        public bool alwayseFollow = true;
 
         /// <summary>
         /// The rate at which the transform's position tries catch up to the provided location.
@@ -61,6 +62,7 @@ namespace Mapbox.Examples
 
         Vector3 _targetPosition;
         private Location location;
+        public bool triggerFollow;
 
         void Start()
 		{
@@ -73,7 +75,7 @@ namespace Mapbox.Examples
 
         private void HightProcessed(UnityTile obj)
         {
-            Debug.Log("HightProcessed");
+          
             _targetPosition = MapUtils.GetVectorOnMap(location);
         }
 
@@ -85,9 +87,10 @@ namespace Mapbox.Examples
 			}
 		}
 
-		void LocationProvider_OnLocationUpdated(Location location)
+		void LocationProvider_OnLocationUpdated(Location loc)
 		{
-            this.location = location;
+           //Debug.Log("latitude: " + loc.LatitudeLongitude.x + "longitude: " + location.LatitudeLongitude.y);
+            this.location = loc;
 
 
             if (_isInitialized && location.IsLocationUpdated)
@@ -98,7 +101,18 @@ namespace Mapbox.Examples
 
 		void Update()
 		{
-			transform.localPosition = Vector3.Lerp(transform.localPosition, _targetPosition, Time.deltaTime * _positionFollowFactor);
-		}
+            if (alwayseFollow)
+            {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, _targetPosition, Time.deltaTime * _positionFollowFactor);
+            }else if (triggerFollow)
+            {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, _targetPosition, Time.deltaTime * _positionFollowFactor);
+                if(Vector3.Distance(transform.position, _targetPosition) < 3)
+                {
+                    this.triggerFollow = false;
+                }
+              
+            }
+        }
 	}
-}
+

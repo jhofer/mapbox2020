@@ -47,15 +47,5 @@ public class BuildingHighlight : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
-        if (this.focus)
-        {
-            Camera.main.GetComponent<OutlineEffect>().AddOutline(outline);
-        }
-        else
-        {
-            Camera.main.GetComponent<OutlineEffect>().RemoveOutline(outline);
-        }
-    }
+
 }

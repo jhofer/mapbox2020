@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseUnit : MonoBehaviour, IEntity
+public class BaseUnit : MonoBehaviour, IEntity, ISelectable
 {
+    public void Select()
+    {
+        CamMovement.Instance.SetTarget(transform);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

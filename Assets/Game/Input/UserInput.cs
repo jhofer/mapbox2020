@@ -77,10 +77,11 @@ public class UserInput : MonoBehaviour
                 var terrainLayer = 10;
                 var go = hit.transform.gameObject;
                 Debug.Log("Tap on " + go.name);
-                if (go.TryGetComponent<BaseUnit>(out BaseUnit unit))
+                if (go.TryGetComponent<ISelectable>(out ISelectable unit))
+
                 {
 
-                    camMovement.SetTarget(unit.transform);
+                    unit.Select();
                 }
                 else
                 {
