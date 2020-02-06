@@ -13,6 +13,7 @@ public class Building : MonoBehaviour, IEntity, ISelectable
     void Start()
     {
         this.outline = this.GetComponent<Outline>();
+        Camera.main.GetComponent<OutlineEffect>().RemoveOutline(outline);
     }
 
     // Update is called once per frame

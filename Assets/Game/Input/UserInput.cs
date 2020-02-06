@@ -78,9 +78,8 @@ public class UserInput : MonoBehaviour
                 var go = hit.transform.gameObject;
                 Debug.Log("Tap on " + go.name);
                 if (go.TryGetComponent<ISelectable>(out ISelectable unit))
-
                 {
-
+                    Debug.Log("Iselectable gefunden");
                     unit.Select();
                 }
                 else
