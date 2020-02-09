@@ -16,6 +16,7 @@ public class MapUtils : BaseSingleton<MapUtils>
     // Start is called before the first frame update
     public Vector3 GetVectorOnMap(double lat, double lon)
     {
+       
         //get tile ID
         var tileIDUnwrapped = TileCover.CoordinateToTileId(new Mapbox.Utils.Vector2d(lat, lon), (int)map.Zoom);
         var isTileLoaded = map.MapVisualizer.ActiveTiles.ContainsKey(tileIDUnwrapped);

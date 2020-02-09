@@ -20,7 +20,8 @@ public class CamMovement : BaseSingleton<CamMovement>
     public float topDownStart = 100;
     [SerializeField]
     public float minCamHeight = 15;
-
+    [SerializeField]
+    public float currentHeight;
 
 
     Vector3 previousPos = Vector3.zero;
@@ -30,12 +31,17 @@ public class CamMovement : BaseSingleton<CamMovement>
     private Transform targetTransform;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
        
         targetTransform = transform;
+        var camInitialPos = Camera.main.transform.localPosition;
+        Camera.main.transform.localPosition = new Vector3(camInitialPos.x, this.currentHeight, camInitialPos.z);
         Camera.main.transform.LookAt(this.transform);
+
+
     }
 
     public void SetTarget(Vector3 target)
@@ -92,7 +98,9 @@ public class CamMovement : BaseSingleton<CamMovement>
 
     internal void Elevate(float delta)
     {
-        var currentHeight = Camera.main.transform.localPosition.y;
+        this.currentHeight = Camera.main.transform.localPosition.y;
+
+
         var speed = camMovementSpeedMultiplier * Time.deltaTime * 3;
         float range = (delta * -1) * (currentHeight / 100)* speed ;
         var sum = currentHeight + range;

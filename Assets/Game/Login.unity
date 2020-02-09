@@ -512,6 +512,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 114919740585158704, guid: ab5565ead19c10345885b785d431173b,
+        type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114919740585158704, guid: ab5565ead19c10345885b785d431173b,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.241
+      objectReference: {fileID: 0}
     - target: {fileID: 224326671780707376, guid: ab5565ead19c10345885b785d431173b,
         type: 3}
       propertyPath: m_AnchoredPosition.y

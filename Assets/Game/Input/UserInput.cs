@@ -84,8 +84,8 @@ public class UserInput : MonoBehaviour
                 }
                 else
                 {
-                   
-                   // camMovement.SetTarget(hit.point);
+
+                    Debug.Log("No selectable");
                 }
                 
 
