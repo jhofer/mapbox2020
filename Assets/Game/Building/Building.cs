@@ -21,10 +21,11 @@ public class Building : MonoBehaviour, IEntity, ISelectable
     private FeatureBehaviour featureBehvaviour;
     private float volume;
     private BuildingType buildingType;
-    private float buildingValue;
+ 
 
     public bool IsSelected { get => this == selectedBuilding; }
     public static Building Selected { get => selectedBuilding; }
+    public double BuildingValue { get => Math.Round(buildingType.multiplier * volume); }
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class Building : MonoBehaviour, IEntity, ISelectable
         var mesh = featureBehvaviour.VectorEntity.Mesh;
         this.volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
         this.buildingType = BuildingTypes.GetType(featureBehvaviour.Data.Properties["type"].ToString());
-        this.buildingValue = buildingType.multiplier * volume;
+       
     }
 
     // Update is called once per frame
@@ -50,20 +51,6 @@ public class Building : MonoBehaviour, IEntity, ISelectable
         {
             this.outline.OutlineColor = Color.yellow;
             this.outline.enabled = true;
-
-            var buffer = new StringBuilder();
-            buffer.AppendLine("====VecctorEntity-Feature.Props===");
-            foreach (var prop in featureBehvaviour.VectorEntity.Feature.Properties)
-            { 
-            buffer.AppendLine(prop.Key + ": " + prop.Value);
-            }
-            buffer.AppendLine("===Data.Properties====");
-            foreach (var prop in featureBehvaviour.Data.Properties)
-            {
-                buffer.AppendLine(prop.Key + ": " + prop.Value);
-            }
-            Debug.Log(buffer.ToString());
-
         }
         else if (this.isOwned)
         {

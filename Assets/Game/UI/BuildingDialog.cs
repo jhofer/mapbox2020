@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class DialogHandler : BaseSingleton<DialogHandler>
+public class BuildingDialog : MonoBehaviour
 {
     [SerializeField]
     public Building building;
 
-    [SerializeField]
-    public GameObject buildingDialog;
+    public Text txtValue;
 
     // Start is called before the first frame update
     void Start()
@@ -19,9 +19,10 @@ public class DialogHandler : BaseSingleton<DialogHandler>
     // Update is called once per frame
     void Update()
     {
-
-        buildingDialog.SetActive(building != null);
-        buildingDialog.GetComponent<BuildingDialog>().building = building;
-
+        if (building != null)
+        {
+            txtValue.text = building.BuildingValue+"$";
+        }
+       
     }
 }

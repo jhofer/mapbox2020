@@ -22,6 +22,12 @@ public class BtClaimBuilding : MonoBehaviour
     public void BtnClaim()
     {
         Building.Selected.Claim();
-       // DialDialogHandler.
+        DialogHandler.Instance.building = null;
+    }
+
+    public void BtnClose()
+    {
+        Building.ResetSelection();
+        DialogHandler.Instance.building = null;
     }
 }
