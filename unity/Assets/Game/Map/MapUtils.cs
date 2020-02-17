@@ -25,7 +25,7 @@ public class MapUtils : BaseSingleton<MapUtils>
 
         if (isTileLoaded)
         {
-            Debug.Log("Tile Is active load height");
+//Debug.Log("Tile Is active load height");
             height = GetHeight(lat, lon, tileIDUnwrapped);
         }
 

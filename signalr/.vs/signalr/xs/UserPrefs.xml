@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{5552780B-4159-4BF8-9088-487CA5A30A86}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../func-endgame-f1-dev/func-endgame-f1-dev/func-endgame-f1-dev.cs">
+    <Files>
+      <File FileName="../unity/Assets/Game/API/HubStuff.cs" Line="74" Column="5" />
+      <File FileName="signalr/Program.cs" Line="1" Column="1" />
+      <File FileName="signalr/SocketHub.cs" Line="16" Column="65" />
+      <File FileName="signalr/Startup.cs" Line="42" Column="50" />
+      <File FileName="../unity/Assets/Game/BaseSingleton.cs" Line="1" Column="1" />
+      <File FileName="../func-endgame-f1-dev/func-endgame-f1-dev/func-endgame-f1-dev.cs" Line="29" Column="37" />
+      <File FileName="signalr/appsettings.Development.json" Line="1" Column="1" />
+      <File FileName="signalr/appsettings.json" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.signalr PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

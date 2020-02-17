@@ -1,0 +1,11 @@
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/bin/Debug/netcoreapp2.0/signalr.deps.json
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/bin/Debug/netcoreapp2.0/signalr.runtimeconfig.json
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/bin/Debug/netcoreapp2.0/signalr.runtimeconfig.dev.json
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/bin/Debug/netcoreapp2.0/signalr.dll
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/bin/Debug/netcoreapp2.0/signalr.pdb
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/obj/Debug/netcoreapp2.0/signalr.csprojAssemblyReference.cache
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/obj/Debug/netcoreapp2.0/signalr.csproj.CoreCompileInputs.cache
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/obj/Debug/netcoreapp2.0/signalr.AssemblyInfoInputs.cache
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/obj/Debug/netcoreapp2.0/signalr.AssemblyInfo.cs
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/obj/Debug/netcoreapp2.0/signalr.dll
+/Users/fazzo/Development/unity/mapbox2020/signalr/signalr/obj/Debug/netcoreapp2.0/signalr.pdb
