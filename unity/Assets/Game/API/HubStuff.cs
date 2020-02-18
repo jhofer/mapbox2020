@@ -86,7 +86,7 @@ public class HubStuff : MonoBehaviour
         try
         {
             Text.text += "Starting\n";
-            client = new HttpClient()
+            client = new HttpClient();
             connection = new HubConnectionBuilder()
                 .WithUrl("https://func-endgame-f2-dev.azurewebsites.net/api")
                 .ConfigureLogging(logging =>
