@@ -112,6 +112,9 @@ public class HubStuff : MonoBehaviour
             Text.text += ex.ToString();
             Debug.LogException(ex);
         }
+
+
+
     }
 
    

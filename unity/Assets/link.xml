@@ -1,4 +1,5 @@
 <linker>
+<!-- SignalR-->
     <assembly fullname="Microsoft.AspNetCore.Connections.Abstractions" preserve="all"/>
     <assembly fullname="Microsoft.AspNetCore.Http.Connections.Client" preserve="all"/>
     <assembly fullname="Microsoft.AspNetCore.Http.Connections.Common" preserve="all"/>
@@ -25,4 +26,6 @@
     <assembly fullname="System.Text.Json" preserve="all"/>
     <assembly fullname="System.Threading.Channels" preserve="all"/>
     <assembly fullname="System.Threading.Tasks.Extensions" preserve="all"/>
+    <!--MSAL-->
+    <assembly fullname="Microsoft.Identity.Client" preserve="all"/>
 </linker>
