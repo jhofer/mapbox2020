@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http.Connections.Client;
 
 public class HubStuff : MonoBehaviour
 {
