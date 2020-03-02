@@ -118,13 +118,19 @@ public class HubStuff : MonoBehaviour
 
     }
 
-   
+
 
     private void OnDestroy()
     {
-        
-        connection.StopAsync();
-        client.Dispose();
+        if (connection != null)
+        {
+            connection.StopAsync();
+
+        }
+        if (client != null)
+        {
+            client.Dispose();
+        }
     }
 
     async Task Update()
