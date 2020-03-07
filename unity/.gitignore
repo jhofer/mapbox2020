@@ -49,6 +49,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+*.aab
 
 # Autobackup files
 *.blend[0-9]
