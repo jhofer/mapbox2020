@@ -25,7 +25,7 @@ namespace Endgame
 {
 public static class GPGSIds
 {
-        public const string leaderboard_endgame__leaderboard = "CgkI7M6o9_IKEAIQAA"; // <GPGSID>
+        public const string leaderboard_leaderboard = "CgkI7c3b28MFEAIQAQ"; // <GPGSID>
 
 }
 }
