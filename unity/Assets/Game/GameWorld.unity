@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4506914, g: 0.5006474, b: 0.5748971, a: 1}
+  m_IndirectSpecularColor: {r: 0.5881708, g: 0.58244425, b: 0.64736515, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3916,8 +3916,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1581365138}
-  - component: {fileID: 1581365137}
   - component: {fileID: 1581365139}
+  - component: {fileID: 1581365137}
   m_Layer: 0
   m_Name: Api
   m_TagString: Untagged
@@ -3938,6 +3938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Text: {fileID: 906809775}
+  auth: {fileID: 1581365139}
 --- !u!4 &1581365138
 Transform:
   m_ObjectHideFlags: 0
@@ -3964,8 +3965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8691a95efb744d5aaa5a1258af6fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GOOGLE_CLIENTID: 374449252204-q4jisqbq2790psfpveilc0vkmnqtm10q.apps.googleusercontent.com
-  idToken: 
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk2MGE3ZThlODM0MWVkNzUyZjEyYjE4NmZhMTI5NzMxZmUwYjA0YzAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxODk5NzYyMDkxMzMtbjE3czh2NHRlMTFrb3E0cjFoMDJpdXByMjA5bDZvanAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxODk5NzYyMDkxMzMtNXNhN2FqOWRlMGJzamg4cnNlc3U5Mm44YnI0YmNvdTguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDUyODI1MjYwNTQwMTI2ODY4ODAiLCJlbWFpbCI6InJvZmwub3JseUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnak9vYWprd0otZVEyNkE4eDNvYmowUEd2NzJqS0I1V0VqM1FkRnd3PXM5Ni1jIiwiaWF0IjoxNTkwMTgwOTU0LCJleHAiOjE1OTAxODQ1NTR9.JV38iYKRTMzKHXRjPAFFverBdu0eCpcMGigfVIhw0pKvuYHP7KDHoQQ-s4MCM_cZxBT-TJLnQo0-rIcy_TqEvDxcubfj7l27gkHCkCOUY7OaINaNxfDAVgXkgavQq6PeZzf3FM675D4pymQPkz7LOg3K1uRs9M7qjLKdDo-ysECSl5EZgpib9rxERDhJr9UXtTT1ZRbY6gS6ksSJHVXsBi5RIuqnHkKy38WpQ51H_p74Z3MlnWsaQR5WTVwdoU5c8aCyCMximf2sy1hYBBScciqnNraMVx7kY6aPwyOphwnB_JQH3ykD3VivNv6BgLzKUXzisQyl_WWxbvhmmc1ZmQ '
 --- !u!1 &1592743674
 GameObject:
   m_ObjectHideFlags: 0
