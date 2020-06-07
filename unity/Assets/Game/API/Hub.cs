@@ -6,15 +6,16 @@ using UnityEngine.UI;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http.Connections.Client;
 using System.Net.Http.Headers;
+using System.Text.Json;
+using Mapbox.Json;
+using Mapbox.Json.Serialization;
 
-
-public class Hub : MonoBehaviour
+public class Hub : BaseSingleton<Hub>
 {
-    private HttpClient client;
+    private HttpClient client = new HttpClient();
     private HubConnection connection;
 
     public HttpConnectionFactory factory;
-    public Text Text;
     private float nextTime =0;
     private float interval = 3;
     private bool connected;
@@ -25,38 +26,8 @@ public class Hub : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        try
-        {
-            Debug.Log("Start HubConnection");
-            client = new HttpClient();
-           
-            connection = new HubConnectionBuilder()
-                .WithUrl("https://func-endgame-f2-dev.azurewebsites.net/api")
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Debug);
-                    logging.AddProvider(new UnityLoggerProvider());
-                })
-                .Build();
-
-
-            connection.On<string>("newMessage", Echo);
-           
-
-
-            Text.text += "Connecting\n";
-            await connection.StartAsync();
-            this.connected = true;
-            Text.text += "Connected\n";
-        }
-        catch (Exception ex)
-        {
-            Text.text += ex.ToString();
-            Debug.LogException(ex);
-        }
-
-
+        client.BaseAddress = new Uri("https://func-endgame-f2-dev.azurewebsites.net");
+       
 
     }
 
@@ -77,33 +48,71 @@ public class Hub : MonoBehaviour
 
     async void Update()
     {
-        if (Time.time >= nextTime)
+        
+        if(auth.IsLoggedIn && connection == null)
         {
-            nextTime += interval;
-           
-                try
-                {
-                    Debug.Log("create httpclient");
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", auth.GetToken());
+            Debug.Log("Create HubConnection");
+            Debug.Log("1. Get Token");
+            var token = await auth.GetToken();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            Debug.Log("2. Read Profile");
+            var response = await client.GetAsync("/api/users/me");
+            string content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                
 
 
-                    client.BaseAddress = new Uri("https://func-endgame-f2-dev.azurewebsites.net");
-                    Debug.Log("pre client.PostAsyn");
-                    var result = await client.PostAsync("/api/SendMessage", new StringContent("hallo unity"));
-                    string resultContent = await result.Content.ReadAsStringAsync();
-                    Debug.Log("post client.PostAsyn" + resultContent);
-                }
-                catch(Exception e)
-                {
-                    Debug.LogError(e);
-                }
+
+                var user = JsonConvert.DeserializeObject<User>(content);
+                var userId = user.id;
+                Debug.Log("loaded user profile: " + userId);
+
+                Debug.Log("3. Create Connection");
+                connection = new HubConnectionBuilder()
+                 .WithUrl("https://func-endgame-f2-dev.azurewebsites.net/api", options =>
+                 {
+                     options.AccessTokenProvider = () => auth.GetToken();
+                     options.Headers.Add("x-ms-client-principal-id", userId);
+                 })
+                 .ConfigureLogging(logging =>
+                 {
+                     logging.ClearProviders();
+                     logging.SetMinimumLevel(LogLevel.Debug);
+                     logging.AddProvider(new UnityLoggerProvider());
+                 })
+                 .Build();
+
+                connection.On<string>("newMessage", Echo);
+
+
+
+                Debug.Log("4. Start Connection");
+                await connection.StartAsync();
+
+            }
+            else
+            {
+                Debug.LogWarning("response code from get user was " + response.StatusCode +"\n"+ content);
+            }
         }
+
+
     }
 
     // Update is called once per frame
     public void Echo(string message)
     {
-        Text.text += $"{message} {DateTime.Now}\n";
         Debug.Log(message);
+    }
+
+    public async void Send(string message)
+    {   
+        var token = await auth.GetToken();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var result = await client.PostAsync("/api/messages", new StringContent(message));
+        string resultContent = await result.Content.ReadAsStringAsync();
+        Debug.Log("Send Result" + resultContent);
     }
 }

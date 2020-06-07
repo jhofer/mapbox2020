@@ -23,6 +23,7 @@ public class BtClaimBuilding : MonoBehaviour
     {
         Building.Selected.Claim();
         DialogHandler.Instance.building = null;
+
     }
 
     public void BtnClose()

@@ -9,13 +9,14 @@ using GooglePlayGames;
 
 public class Auth : MonoBehaviour
 {
-    
+
     [SerializeField]
     public string idToken;
-
+    private TaskCompletionSource<string> promise = new TaskCompletionSource<string>();
 
     public void Start()
     {
+      
         if (Application.isEditor)
         {
             Debug.Log("In editor Mode: Use idToken in the editor: \n" + idToken);
@@ -26,23 +27,23 @@ public class Auth : MonoBehaviour
             Debug.Log("Real mode use PlayGamesClientConfiguration");
 
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-         // enables saving game progress.
-         // .EnableSavedGames()
-         // registers a callback to handle game invitations received while the game is not running.
-         //  .WithInvitationDelegate(< callback method >)
-         // registers a callback for turn based match notifications received while the
-         // game is not running.
-         // .WithMatchDelegate(< callback method >)
-         // requests the email address of the player be available.
-         // Will bring up a prompt for consent.
-         //.RequestEmail()
-         // requests a server auth code be generated so it can be passed to an
-         //  associated back end server application and exchanged for an OAuth token.
-         .RequestServerAuthCode(false)
-         // requests an ID token be generated.  This OAuth token can be used to
-         //  identify the player to other services such as Firebase.
-         .RequestIdToken()
-         .Build();
+             // enables saving game progress.
+             // .EnableSavedGames()
+             // registers a callback to handle game invitations received while the game is not running.
+             //  .WithInvitationDelegate(< callback method >)
+             // registers a callback for turn based match notifications received while the
+             // game is not running.
+             // .WithMatchDelegate(< callback method >)
+             // requests the email address of the player be available.
+             // Will bring up a prompt for consent.
+             .RequestEmail()
+             // requests a server auth code be generated so it can be passed to an
+             //  associated back end server application and exchanged for an OAuth token.
+             .RequestServerAuthCode(false)
+             // requests an ID token be generated.  This OAuth token can be used to
+             //  identify the player to other services such as Firebase.
+             .RequestIdToken()
+             .Build();
 
             PlayGamesPlatform.InitializeInstance(config);
             // recommended for debugging:
@@ -71,11 +72,12 @@ public class Auth : MonoBehaviour
 
     private void AuthenctationSucceed()
     {
-    
+
         Debug.Log(Social.localUser.userName + " logged in");
         this.IsLoggedIn = true;
-  
-       
+        if (!promise.TrySetResult(ReadToken())) {
+            throw new Exception("Could not Resolve promise");
+        };
     }
 
     private const float AuthenticationWaitTimeSeconds = 10;
@@ -113,18 +115,24 @@ public class Auth : MonoBehaviour
         Debug.LogError("Login Failed");
     }
 
-    public string GetToken()
+    public Task<string> GetToken()
     {
        
+        return promise.Task;
+    }
+
+    private string ReadToken()
+    {
+
         if (Application.isEditor)
         {
-            return  this.idToken;
+            return this.idToken;
         }
         else
         {
             return ((PlayGamesLocalUser)Social.localUser).GetIdToken();
         }
-            
-     
+
+
     }
 }

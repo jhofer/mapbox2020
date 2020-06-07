@@ -6,57 +6,56 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
-
-using System.Web.Http;
-using System.Net;
-using Google.Apis.Auth;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
+using func_endgame_f2_dev.Auth;
+using Microsoft.Azure.Documents.Client;
+using MongoDB.Driver;
+using System.Linq;
 
 namespace func_endgame_f2_dev
 {
     public static class Functions
     {
-        private const string AUTH_HEADER_NAME = "Authorization";
-        private const string BEARER_PREFIX = "Bearer ";
+        private static readonly FeedOptions DefaultOptions = new FeedOptions { EnableCrossPartitionQuery = true };
 
         [FunctionName("negotiate")]
-        public static SignalRConnectionInfo GetSignalRInfo(
+        public static async Task<object> GetSignalRInfo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
-            [SignalRConnectionInfo(HubName = "chat")] SignalRConnectionInfo connectionInfo)
+            [SignalRConnectionInfo(HubName = "chat", UserId = "{headers.x-ms-client-principal-id}")] SignalRConnectionInfo connectionInfo, ILogger log)
+
         {
-            return connectionInfo;
+            log.LogInformation("Enter negotiate");
+            try
+            {
+                Payload token =  TokenValidator.GetAndValidateToken(req, log).Result;
+                return connectionInfo;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return new UnauthorizedResult();
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, "Negotiate Faild");
+                throw e;
+            }
+          
         }
 
 
         [FunctionName("SendMessage")]
-        public static async Task SendMessage(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
+        public static async Task<IActionResult> SendMessage(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "messages")] HttpRequest req,
             [SignalR(HubName = "chat")] IAsyncCollector<SignalRMessage> signalRMessages,
              ILogger log)
         {
-            log.LogDebug("Enter function");
+            log.LogDebug("Enter SendMessage");
+            Payload token = await TokenValidator.GetAndValidateToken(req, log);
+            
             try
             {
-             
-                Payload token;
-                // Get the token from the header
-                if (req.Headers.ContainsKey(AUTH_HEADER_NAME) &&
-                   req.Headers[AUTH_HEADER_NAME].ToString().StartsWith(BEARER_PREFIX))
-                {
-                    var authorizationHeader = req.Headers["Authorization"].ToString();
-                    log.LogInformation(authorizationHeader);
-                    var jwt = req.Headers["Authorization"].ToString().Substring(BEARER_PREFIX.Length);
-                    token = await GoogleJsonWebSignature.ValidateAsync(jwt);
-                    log.LogInformation(JsonConvert.SerializeObject(token));
-
-                }
-                else
-                {
-                    log.LogInformation("no token added");
-                    throw new Exception("no token");
-                }
+               
                 var content = await new StreamReader(req.Body).ReadToEndAsync();
                 log.LogInformation(" signalRMessages.AddAsync");
                 await signalRMessages.AddAsync(
@@ -65,12 +64,89 @@ namespace func_endgame_f2_dev
                         Target = "newMessage",
                         Arguments = new[] { token.Email + ": " + content }
                     });
-            }catch(Exception e)
+                return new OkResult();
+            }
+            catch(UnauthorizedAccessException e) {
+                return new UnauthorizedResult();
+            }
+        
+            catch (Exception e)
             {
-                log.LogError(e.Message);
+                log.LogError("SendMessage Failed "+e.Message);
                     throw e;
             }
 
         }
+
+        [FunctionName("GetLoggedInUser")]
+        public static async Task<IActionResult> GetLoggedInUser(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "users/me")] HttpRequest req, ILogger logger, [CosmosDB(
+                databaseName: "endgame",
+                collectionName: "users",
+                ConnectionStringSetting = "CosmosDBConnection")] DocumentClient client)
+         
+        {
+            logger.LogDebug("Enter GetLoggedInUser");
+           
+            try
+            {
+                Payload token = await TokenValidator.GetAndValidateToken(req, logger);
+                logger.LogDebug("email: " + token.Email);
+                logger.LogDebug("name: " + token.Name);
+                
+                Uri collectionUri = UriFactory.CreateDocumentCollectionUri("endgame", "users");
+
+
+
+                var user = client.CreateDocumentQuery<User>(collectionUri, DefaultOptions)
+                       .Where(f => f.email == token.Email).AsEnumerable().FirstOrDefault();
+               
+                if (user != null) { 
+                    logger.LogDebug("Return User from DB");
+                    return new OkObjectResult(user);
+
+                }
+                else
+                {
+                    logger.LogDebug("create new User");
+               
+
+                    var newUser = new User
+                    {
+                        email = token.Email,
+                        name = token.Name
+                    };
+                    await client.UpsertDocumentAsync(collectionUri, newUser);
+                    return new OkObjectResult(newUser);
+
+                }
+
+
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                logger.LogError(e, e.Message);
+                return new UnauthorizedResult();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, e.Message);
+                throw e;
+            }
+
+        }
+        /*
+        private static IMongoCollection<T> GetCollection<T>(string collectioName)
+        {
+            string connectionString = Environment.GetEnvironmentVariable("CosmosDBConnection");
+            MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+            settings.SslSettings = new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+            var mongoClient = new MongoClient(settings);
+
+            var db = mongoClient.GetDatabase("endgame");
+            return db.GetCollection<T>(collectioName);
+        }
+        */
+
     }
 }

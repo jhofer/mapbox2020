@@ -15,6 +15,7 @@ public class Building : MonoBehaviour, IEntity, ISelectable
     public void Claim()
     {
         ResetSelection();
+        Hub.Instance.Send("Claim Building");
         this.isOwned = true;
     }
 
