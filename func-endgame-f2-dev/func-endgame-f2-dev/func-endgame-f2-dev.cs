@@ -91,13 +91,10 @@ namespace func_endgame_f2_dev
             try
             {
                 Payload token = await TokenValidator.GetAndValidateToken(req, logger);
-                logger.LogDebug("email: " + token.Email);
-                logger.LogDebug("name: " + token.Name);
+                logger.LogDebug("email in token: " + token.Email);
+                logger.LogDebug("name  in token: " + token.Name);
                 
                 Uri collectionUri = UriFactory.CreateDocumentCollectionUri("endgame", "users");
-
-
-
                 var user = client.CreateDocumentQuery<User>(collectionUri, DefaultOptions)
                        .Where(f => f.email == token.Email).AsEnumerable().FirstOrDefault();
                
@@ -135,18 +132,7 @@ namespace func_endgame_f2_dev
             }
 
         }
-        /*
-        private static IMongoCollection<T> GetCollection<T>(string collectioName)
-        {
-            string connectionString = Environment.GetEnvironmentVariable("CosmosDBConnection");
-            MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-            settings.SslSettings = new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
-            var mongoClient = new MongoClient(settings);
-
-            var db = mongoClient.GetDatabase("endgame");
-            return db.GetCollection<T>(collectioName);
-        }
-        */
+ 
 
     }
 }

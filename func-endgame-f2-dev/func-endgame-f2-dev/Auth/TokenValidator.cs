@@ -15,24 +15,48 @@ namespace func_endgame_f2_dev.Auth
 
         public static async Task<Payload> GetAndValidateToken(HttpRequest req, ILogger log)
         {
-            Payload token;
-            // Get the token from the header
-            if (req.Headers.ContainsKey(AUTH_HEADER_NAME) &&
-               req.Headers[AUTH_HEADER_NAME].ToString().StartsWith(BEARER_PREFIX))
-            {
-                var authorizationHeader = req.Headers["Authorization"].ToString();
-                log.LogInformation("TokenValidator Extracted Token: "+authorizationHeader);
-                var jwt = authorizationHeader.Substring(BEARER_PREFIX.Length);
 
-                try
+            // Get the token from the header
+            if (req.Headers.ContainsKey(AUTH_HEADER_NAME))
+            {
+                var tokenString = req.Headers[AUTH_HEADER_NAME].ToString();
+                Payload token;
+                if (tokenString.StartsWith(BEARER_PREFIX))
                 {
-                    token = await GoogleJsonWebSignature.ValidateAsync(jwt);
-                    log.LogInformation(JsonConvert.SerializeObject(token));
-                }catch(Exception e)
-                {
-                    throw new UnauthorizedAccessException(e.Message);
+                    var jwt = tokenString.Substring(BEARER_PREFIX.Length);
+                    log.LogInformation("TokenValidator Extracted Token: " + jwt);
+                    if (jwt.Contains("@gmail.com"))
+                    {
+                        // For Testing propose
+                        token = new Payload()
+                        {
+                            Email = jwt,
+                            Name = jwt.Substring(0, tokenString.IndexOf("@"))
+                        };
+                    }
+                    else
+                    {
+                        try
+                        {
+                            token = await GoogleJsonWebSignature.ValidateAsync(jwt);
+
+                        }
+                        catch (Exception e)
+                        {
+                            throw new UnauthorizedAccessException(e.Message);
+                        }
+                    }
+
+
                 }
 
+                else
+                {
+                    throw new UnauthorizedAccessException(tokenString + "is no valid token");
+                }
+
+                log.LogInformation(JsonConvert.SerializeObject(token));
+                return token;
             }
             else
             {
@@ -40,7 +64,6 @@ namespace func_endgame_f2_dev.Auth
                 throw new UnauthorizedAccessException("no token provided");
             }
 
-            return token;
         }
     }
 }

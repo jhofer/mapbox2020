@@ -11,7 +11,13 @@ using Mapbox.Json;
 using Mapbox.Json.Serialization;
 
 public class Hub : BaseSingleton<Hub>
-{
+{ 
+    [SerializeField]
+    public string BaseAdressAzure = "https://func-endgame-f2-dev.azurewebsites.net";
+    [SerializeField]
+    public string BaseAdressEditor = "http://localhost:7071";
+
+    private string baseAdress;
     private HttpClient client = new HttpClient();
     private HubConnection connection;
 
@@ -21,13 +27,24 @@ public class Hub : BaseSingleton<Hub>
     private bool connected;
     public Auth auth;
 
-    
+
 
     // Start is called before the first frame update
     async void Start()
     {
-        client.BaseAddress = new Uri("https://func-endgame-f2-dev.azurewebsites.net");
-       
+        if (Application.isEditor)
+        {
+            baseAdress = (BaseAdressEditor);
+
+        }
+        else
+        {
+            baseAdress = (BaseAdressAzure);
+
+        }
+
+        client.BaseAddress = new Uri(baseAdress);
+
 
     }
 
@@ -71,7 +88,7 @@ public class Hub : BaseSingleton<Hub>
 
                 Debug.Log("3. Create Connection");
                 connection = new HubConnectionBuilder()
-                 .WithUrl("https://func-endgame-f2-dev.azurewebsites.net/api", options =>
+                 .WithUrl(baseAdress+"/api", options =>
                  {
                      options.AccessTokenProvider = () => auth.GetToken();
                      options.Headers.Add("x-ms-client-principal-id", userId);
