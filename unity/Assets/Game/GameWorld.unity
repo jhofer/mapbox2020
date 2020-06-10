@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.546826, g: 0.6023618, b: 0.66685355, a: 1}
+  m_IndirectSpecularColor: {r: 0.54725266, g: 0.60263574, b: 0.66699135, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3937,6 +3937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d13cc996a1d14ace90cabe5277274e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BaseAdressAzure: https://func-endgame-f2-dev.azurewebsites.net
+  BaseAdressEditor: http://localhost:7071
   auth: {fileID: 1581365139}
 --- !u!4 &1581365138
 Transform:
@@ -3964,7 +3966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8691a95efb744d5aaa5a1258af6fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idToken: eyJhbGciOiJSUzI1NiIsImtpZCI6ImZiOGNhNWI3ZDhkOWE1YzZjNjc4ODA3MWU4NjZjNmM0MGYzZmMxZjkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxODk5NzYyMDkxMzMtbjE3czh2NHRlMTFrb3E0cjFoMDJpdXByMjA5bDZvanAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxODk5NzYyMDkxMzMtNXNhN2FqOWRlMGJzamg4cnNlc3U5Mm44YnI0YmNvdTguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDUyODI1MjYwNTQwMTI2ODY4ODAiLCJlbWFpbCI6InJvZmwub3JseUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnak9vYWprd0otZVEyNkE4eDNvYmowUEd2NzJqS0I1V0VqM1FkRnd3PXM5Ni1jIiwiaWF0IjoxNTkwNDQwMzY2LCJleHAiOjE1OTA0NDM5NjZ9.SZkcn6koiVXBMkkIY1clnWWVu-uyPoXzT1CAqXFjuD4AE2oX8jcb_fxdgaFOC5n8GpqJyqYYc9UDgHQkK-DSByOrsM6WihmgTWgaWBjXhsluWF3FUhJTdyYVlciynQucIvXvA59acEt4bm6CIJUcYdZc422TkAvUGQOhnw4vTOP-Ko2mi6ngoEL9mlFK92MFEDZdEzXSIxb6hRGAQntxSdNsAlifpaGzSrkzv1Hgj8lfwPKT2TTbciAbY0QL3RVLHp3iYKrrU9HlTTMEExuSZz8ac524TcB3oskBe8xR3-89EOEkXjTPZQK30Tonf34-bq6fOOHFzSOKOkooKHJNuQ
+  idToken: rofl.orly@gmail.com
 --- !u!1 &1592743674
 GameObject:
   m_ObjectHideFlags: 0
