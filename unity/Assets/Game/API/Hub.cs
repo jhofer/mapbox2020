@@ -9,11 +9,15 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using Mapbox.Json;
 using Mapbox.Json.Serialization;
+using Assets.Game.Domain;
+using System.Threading.Tasks;
 
 public class Hub : BaseSingleton<Hub>
 { 
     [SerializeField]
     public string BaseAdressAzure = "https://func-endgame-f2-dev.azurewebsites.net";
+
+
     [SerializeField]
     public string BaseAdressEditor = "http://localhost:7071";
     private static object m_Lock = new object();
@@ -27,21 +31,16 @@ public class Hub : BaseSingleton<Hub>
     private bool connected;
     public Auth auth;
 
+    public void ClaimBuilding(Building building)
+    {
+      
+    }
 
 
     // Start is called before the first frame update
     async void Start()
     {
-        if (Application.isEditor)
-        {
-            baseAdress = (BaseAdressEditor);
-
-        }
-        else
-        {
-            baseAdress = (BaseAdressAzure);
-
-        }
+        baseAdress = Application.isEditor ? BaseAdressEditor : BaseAdressAzure;
 
         client.BaseAddress = new Uri(baseAdress);
 
@@ -54,14 +53,8 @@ public class Hub : BaseSingleton<Hub>
         var response = await client.GetAsync("/api/users/me");
         string content = await response.Content.ReadAsStringAsync();
 
-
-
         if (response.IsSuccessStatusCode)
         {
-
-
-
-
             var user = JsonConvert.DeserializeObject<User>(content);
             var userId = user.id;
             Debug.Log("loaded user profile: " + userId);
@@ -81,12 +74,6 @@ public class Hub : BaseSingleton<Hub>
              })
              .Build();
 
-            connection.On<string>("newMessage", Echo);
-
-
-
-
-
         }
         else
         {
@@ -100,12 +87,18 @@ public class Hub : BaseSingleton<Hub>
     }
 
 
+    public void On<T>(string type, Action<T> callback)
+    {
+        connection.On(type, callback);
+    }
+
+
 
     private void OnDestroy()
     {
         if (connection != null)
         {
-            connection.StopAsync();
+            connection.StopAsync().GetAwaiter().GetResult();
 
         }
         if (client != null)
@@ -120,18 +113,20 @@ public class Hub : BaseSingleton<Hub>
 
     }
 
-    // Update is called once per frame
-    public void Echo(string message)
-    {
-        Debug.Log("Echo: "+message);
-    }
+ 
 
-    public async void Send(string message)
-    {   
-        var token = await auth.GetToken();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    public async void Send(object payload)
+    {
+        await SetHeader();
+        var message = JsonConvert.SerializeObject(payload);
         var result = await client.PostAsync("/api/messages", new StringContent(message));
         string resultContent = await result.Content.ReadAsStringAsync();
         Debug.Log("Send Result" + resultContent);
+    }
+
+    private async Task SetHeader()
+    {
+        var token = await auth.GetToken();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 }

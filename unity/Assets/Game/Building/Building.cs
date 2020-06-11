@@ -11,33 +11,36 @@ public class Building : MonoBehaviour, IEntity, ISelectable
     private bool isOwned = false;
     private bool isEnemy = false;
     private Outline outline;
-
-    public void Claim()
-    {
-        ResetSelection();
-        Hub.Instance.Send("Claim Building");
-        this.isOwned = true;
-    }
-
     private FeatureBehaviour featureBehvaviour;
     private float volume;
     private BuildingType buildingType;
- 
+
 
     public bool IsSelected { get => this == selectedBuilding; }
     public static Building Selected { get => selectedBuilding; }
     public double BuildingValue { get => Math.Round(buildingType.multiplier * volume); }
 
+    public void Claim()
+    {
+        ResetSelection();
+        //Hub.Instance.ClaimBuilding();
+        this.isOwned = true;
+    }
+
+
+
+
     void Start()
     {
         this.outline = this.GetComponent<Outline>();
         this.featureBehvaviour = this.GetComponent<FeatureBehaviour>();
+        this.id = featureBehvaviour.Data.Data.Id;
         this.outline.enabled = false;
 
         var mesh = featureBehvaviour.VectorEntity.Mesh;
         this.volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
         this.buildingType = BuildingTypes.GetType(featureBehvaviour.Data.Properties["type"].ToString());
-       
+     
     }
 
     // Update is called once per frame
