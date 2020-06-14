@@ -22,7 +22,7 @@ namespace func_endgame_f2_dev
       [FunctionName("negotiate")]
       public static async Task<object> GetSignalRInfo(
           [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
-          [SignalRConnectionInfo(HubName = "chat", UserId = "{headers.x-ms-client-principal-id}")] SignalRConnectionInfo connectionInfo, ILogger log)
+          [SignalRConnectionInfo(HubName = "endgame", UserId = "{headers.x-ms-client-principal-id}")] SignalRConnectionInfo connectionInfo, ILogger log)
 
       {
 

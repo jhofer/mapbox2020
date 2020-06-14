@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class ConquerManager : MonoBehaviour
 {
-    MonoBehaviour map; 
     
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,8 @@ public class ConquerManager : MonoBehaviour
 
     private void ConquerBuilding(BuildingDto obj)
     {
-        var buildings = this.map.GetComponentsInChildren<Building>();
+       
+        var buildings = MapUtils.Instance.map.GetComponentsInChildren<Building>();
         foreach (var b in buildings)
         {
             if(b.MapBoxId == obj.id)

@@ -9,6 +9,8 @@ using Mapbox.Json;
 using Assets.Game.Domain;
 using System.Threading.Tasks;
 using Endgame.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Hub : BaseSingleton<Hub>
 {
@@ -28,7 +30,7 @@ public class Hub : BaseSingleton<Hub>
    private float interval = 3;
    private bool connected;
    public Auth auth;
-
+   private Queue<Tuple<string, Type, Action<string>>> listenersToAdd = new Queue<Tuple<string, Type,Action<string>>>();
 
     public string UserId { get; private set; }
 
@@ -81,6 +83,7 @@ public class Hub : BaseSingleton<Hub>
 
             Debug.Log("4. Start Connection");
             await connection.StartAsync();
+          
 
         }
       else
@@ -96,29 +99,47 @@ public class Hub : BaseSingleton<Hub>
 
    public void On<T>(string type, Action<T> callback)
    {
-      connection.On<T>(type, callback);
+
+        this.listenersToAdd.Enqueue(new Tuple<string, Type, Action<string>>(type, typeof(T), (string payload) => {
+            Debug.Log($"Socket Message {payload}");
+            var obj = JsonConvert.DeserializeObject<T>(payload);
+            callback(obj); 
+        
+        }));
+
+
+  
    }
+   
 
 
-
-   private void OnDestroy()
+   async void OnDestroy()
    {
       if (connection != null)
       {
-         connection.StopAsync().GetAwaiter().GetResult();
-
-      }
+            Debug.Log(" connection.StopAsync()");
+           await connection.StopAsync();
+            Debug.Log(" connection.StopAsync() done");
+        }
       if (client != null)
       {
          client.Dispose();
       }
    }
 
-   async void Update()
+   void Update()
    {
-
-
-   }
+        if(connection != null && listenersToAdd.Any())
+        {
+            var el = listenersToAdd.Dequeue();
+            var eventName = el.Item1;
+            var modelType = el.Item2;
+            var callBack = el.Item3;
+            Debug.Log($"Add Listener {eventName} {modelType} {callBack.ToString()}");
+            connection.On<string>(eventName, callBack);
+        }
+       
+    }
 
 
 
