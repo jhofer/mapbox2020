@@ -4,24 +4,25 @@ using System.Collections.Generic;
 using Endgame.Domain;
 using UnityEngine;
 
-public class ConquerManager : MonoBehaviour
+public class BuildingApi : BaseSingleton<BuildingApi>
 {
-    
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Hub.Instance.On<BuildingDto>("ConquerBuilding", ConquerBuilding);
+        Hub.Instance.On<BuildingDto>("UpdateBuilding", UpdateBuilding);
     }
 
-    private void ConquerBuilding(BuildingDto obj)
+    private void UpdateBuilding(BuildingDto obj)
     {
-       
+
+
         var buildings = MapUtils.Instance.map.GetComponentsInChildren<Building>();
         foreach (var b in buildings)
         {
-            if(b.MapBoxId == obj.id)
+            if (b.MapBoxId == obj.id)
             {
                 b.UpdateBuilding(obj);
                 return;
@@ -29,9 +30,11 @@ public class ConquerManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public async void ConquerBuilding(BuildingDto building)
     {
-        
+        await Hub.Instance.PostAsync<object, BuildingDto>("/api/buildings", building);
+               
     }
+
+
 }

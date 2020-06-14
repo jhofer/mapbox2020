@@ -25,7 +25,17 @@ public class Hub : BaseSingleton<Hub>
    private HttpClient client = new HttpClient();
    private HubConnection connection;
 
-   public HttpConnectionFactory factory;
+    public async Task<R> PostAsync<R,T>(string path, T obj)
+    {
+        await SetHeader();
+        var message = JsonConvert.SerializeObject(obj);
+        var result = await client.PostAsync(path, new StringContent(message));
+        string resultContent = await result.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<R>(resultContent);
+        
+    }
+
+    public HttpConnectionFactory factory;
    private float nextTime = 0;
    private float interval = 3;
    private bool connected;
