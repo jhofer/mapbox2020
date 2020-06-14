@@ -2,31 +2,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Endgame.Domain;
 using Mapbox.Unity.MeshGeneration.Components;
 using UnityEngine;
 
 public class Building : MonoBehaviour, IEntity, ISelectable
 {
     private static Building selectedBuilding = null;
-    private bool isOwned = false;
-    private bool isEnemy = false;
+    private bool IsOwned  { get => this.dto.userId != null && this.dto.userId == Hub.Instance.UserId; }
+    private bool IsEnemy  { get => this.dto.userId != null && this.dto.userId != Hub.Instance.UserId; }
     private Outline outline;
     private FeatureBehaviour featureBehvaviour;
-    private float volume;
-    private BuildingType buildingType;
-
+   
+    private BuildingDto dto;
 
     public bool IsSelected { get => this == selectedBuilding; }
-    public static Building Selected { get => selectedBuilding; }
-    public double BuildingValue { get => Math.Round(buildingType.multiplier * volume); }
+
+    public void UpdateBuilding(BuildingDto obj)
+    {
+        dto = obj;
+
+    }
+
+    public static Building Selected { get => DialogHandler.Instance.building; }
+    
+    public string MapBoxId { get => this.dto.id; }
+    public double BuildingValue { get => this.dto.value; }
 
     public void Claim()
     {
         ResetSelection();
-        //Hub.Instance.ClaimBuilding();
-        this.isOwned = true;
+        Hub.Instance.ConquerBuilding(dto);
+      
     }
-
 
 
 
@@ -34,12 +42,19 @@ public class Building : MonoBehaviour, IEntity, ISelectable
     {
         this.outline = this.GetComponent<Outline>();
         this.featureBehvaviour = this.GetComponent<FeatureBehaviour>();
-        this.id = featureBehvaviour.Data.Data.Id;
         this.outline.enabled = false;
 
         var mesh = featureBehvaviour.VectorEntity.Mesh;
-        this.volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
-        this.buildingType = BuildingTypes.GetType(featureBehvaviour.Data.Properties["type"].ToString());
+        var volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
+        var id = featureBehvaviour.Data.Data.Id;
+        var buildingType = BuildingTypes.GetType(featureBehvaviour.Data.Properties["type"].ToString());
+        this.dto = new BuildingDto()
+        {
+            id = id.ToString(),
+            buildingType = buildingType.ToString(),
+            volume = volume,
+            value = Math.Round(buildingType.multiplier * volume)
+        };
      
     }
 
@@ -56,12 +71,12 @@ public class Building : MonoBehaviour, IEntity, ISelectable
             this.outline.OutlineColor = Color.yellow;
             this.outline.enabled = true;
         }
-        else if (this.isOwned)
+        else if (this.IsOwned)
         {
             this.outline.OutlineColor = Color.green;
             this.outline.enabled = true;
         }
-        else if(this.isEnemy)
+        else if(this.IsEnemy)
         {
             this.outline.OutlineColor = Color.red;
             this.outline.enabled = true;

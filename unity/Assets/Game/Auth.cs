@@ -7,7 +7,7 @@ using System;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
 
-public class Auth : MonoBehaviour
+public class Auth : BaseSingleton<Auth>
 {
 
     [SerializeField]
@@ -72,7 +72,7 @@ public class Auth : MonoBehaviour
 
     private void AuthenctationSucceed()
     {
-
+       
         Debug.Log(Social.localUser.userName + " logged in");
         this.IsLoggedIn = true;
         if (!promise.TrySetResult(ReadToken())) {

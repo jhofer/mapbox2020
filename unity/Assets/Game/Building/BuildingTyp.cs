@@ -40,10 +40,10 @@ public class BuildingType
         BuildingTypes.dict.Add(mapboxType, this);
     }
 
-  
-
-
-
+    public override string ToString()
+    {
+        return mapBoxType.ToString();
+    }
 }
 
 

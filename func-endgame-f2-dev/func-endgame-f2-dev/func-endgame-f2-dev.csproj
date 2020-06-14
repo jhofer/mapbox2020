@@ -53,8 +53,11 @@
     <Folder Include="Domain\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\unity\Assets\Game\Domain\User.cs">
-      <Link>Domain\User.cs</Link>
+    <Compile Include="..\..\unity\Assets\Game\Domain\BuildingDto.cs">
+      <Link>Domain\BuildingDto.cs</Link>
+    </Compile>
+    <Compile Include="..\..\unity\Assets\Game\Domain\UserDto.cs">
+      <Link>Domain\UserDto.cs</Link>
     </Compile>
   </ItemGroup>
 </Project>

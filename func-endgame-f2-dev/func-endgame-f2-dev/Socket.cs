@@ -20,20 +20,21 @@ namespace func_endgame_f2_dev
         }
 
 
-        public async Task SendMessageToUser(string target, object payload, string userId)
+        public async Task SendMessageToUser(string target, object payload, params string[] userIds)
         {
-
             var arguments = JsonConvert.SerializeObject(payload);
 
-            await messages.AddAsync(
+            foreach (var userId in userIds)
+            {
+                await messages.AddAsync(
                   new SignalRMessage
                   {
                       UserId = userId,
                       Target = target,
                       Arguments = new[] { arguments }
                   }
-             );
-
+                );
+            }
         }
     }
 }
