@@ -1,22 +1,18 @@
-﻿using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.WebJobs;
+﻿using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace func_endgame_f2_dev
+namespace Endgame.Backend
 {
     public class Socket
     {
         private IAsyncCollector<SignalRMessage> messages;
-        
+
         public Socket(IAsyncCollector<SignalRMessage> signalRMessages)
         {
             this.messages = signalRMessages;
-          
+
         }
 
 

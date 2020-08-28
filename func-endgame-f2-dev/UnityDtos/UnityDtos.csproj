@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\unity\Assets\Game\DTOs\BuildingDto.cs" Link="BuildingDto.cs" />
+    <Compile Include="..\..\unity\Assets\Game\DTOs\LocationDto.cs" Link="LocationDto.cs" />
+    <Compile Include="..\..\unity\Assets\Game\DTOs\Message.cs" Link="Message.cs" />
+    <Compile Include="..\..\unity\Assets\Game\DTOs\UserDto.cs" Link="UserDto.cs" />
+  </ItemGroup>
+
+</Project>

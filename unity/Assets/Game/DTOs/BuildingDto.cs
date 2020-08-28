@@ -1,5 +1,5 @@
 ﻿
-namespace Endgame.Domain
+namespace Endgame.DTOs
 {
 
     public class BuildingDto
@@ -13,6 +13,10 @@ namespace Endgame.Domain
         public string userId { get; set; }
 
         public string buildingType { get; set; }
+
+        public LocationDto location { get; set; }
+
+
     }
 }
 

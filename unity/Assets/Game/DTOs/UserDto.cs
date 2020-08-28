@@ -1,5 +1,4 @@
-﻿
-namespace Assets.Game.Domain
+﻿namespace Endgame.DTOs
 {
     public class UserDto
     {
@@ -14,6 +13,8 @@ namespace Assets.Game.Domain
         {
             return id.Equals(other.id) && email.Equals(other.email);
         }
+
+        public LocationDto location { get; set; }
     }
 }
 

@@ -6,11 +6,10 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Http.Connections.Client;
 using System.Net.Http.Headers;
 using Mapbox.Json;
-using Assets.Game.Domain;
 using System.Threading.Tasks;
-using Endgame.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using Endgame.DTOs;
 
 public class Hub : BaseSingleton<Hub>
 {

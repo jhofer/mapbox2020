@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Google.Apis.Auth;
+using System;
+using System.Threading.Tasks;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace func_endgame_f2_dev.Auth
+namespace Endgame.Backend.Auth
 {
     public class TokenValidator
     {

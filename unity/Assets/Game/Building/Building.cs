@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using Endgame.Domain;
+using Endgame.DTOs;
 using Mapbox.Unity.MeshGeneration.Components;
 using UnityEngine;
 
