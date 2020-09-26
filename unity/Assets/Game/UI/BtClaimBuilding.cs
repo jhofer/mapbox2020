@@ -21,14 +21,14 @@ public class BtClaimBuilding : MonoBehaviour
 
     public void BtnClaim()
     {
-        Building.Selected.Claim();
+        BuildingContoller.Selected.Claim();
         DialogHandler.Instance.building = null;
 
     }
 
     public void BtnClose()
     {
-        Building.ResetSelection();
+        BuildingContoller.ResetSelection();
         DialogHandler.Instance.building = null;
     }
 }

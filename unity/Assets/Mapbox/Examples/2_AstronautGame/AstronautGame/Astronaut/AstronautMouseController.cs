@@ -19,7 +19,7 @@ namespace Mapbox.Examples
 
 		[Header("References")]
 		[SerializeField]
-		AstronautDirections directions;
+		UnitDirections directions;
 		[SerializeField]
 		Transform startPoint;
 		[SerializeField]

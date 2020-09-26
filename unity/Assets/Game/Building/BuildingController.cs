@@ -3,9 +3,9 @@ using Endgame.DTOs;
 using Mapbox.Unity.MeshGeneration.Components;
 using UnityEngine;
 
-public class Building : MonoBehaviour, IEntity, ISelectable
+public class BuildingContoller : MonoBehaviour, IEntity, ISelectable
 {
-    private static Building selectedBuilding = null;
+    private static BuildingContoller selectedBuilding = null;
     private bool IsOwned  { get => this.dto.userId != null && this.dto.userId == Hub.Instance.UserId; }
     private bool IsEnemy  { get => this.dto.userId != null && this.dto.userId != Hub.Instance.UserId; }
     private Outline outline;
@@ -21,7 +21,7 @@ public class Building : MonoBehaviour, IEntity, ISelectable
 
     }
 
-    public static Building Selected { get => DialogHandler.Instance.building; }
+    public static BuildingContoller Selected { get => DialogHandler.Instance.building; }
     
     public string MapBoxId { get => this.dto.id; }
     public double BuildingValue { get => this.dto.value; }

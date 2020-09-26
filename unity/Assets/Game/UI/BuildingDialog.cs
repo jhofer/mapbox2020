@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BuildingDialog : MonoBehaviour
 {
     [SerializeField]
-    public Building building;
+    public BuildingContoller building;
 
     public Text txtValue;
 

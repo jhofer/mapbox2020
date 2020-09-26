@@ -18,7 +18,7 @@ namespace Mapbox.Examples
         Soldier,
     }
 
-	public class AstronautDirections : MonoBehaviour
+	public class UnitDirections : MonoBehaviour
 	{
 		AbstractMap _map;
 		Directions.Directions _directions;

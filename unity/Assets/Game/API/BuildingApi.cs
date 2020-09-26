@@ -15,7 +15,7 @@ public class BuildingApi : BaseSingleton<BuildingApi>
     {
 
 
-        var buildings = MapUtils.Instance.map.GetComponentsInChildren<Building>();
+        var buildings = MapUtils.Instance.map.GetComponentsInChildren<BuildingContoller>();
         foreach (var b in buildings)
         {
             if (b.MapBoxId == obj.id)

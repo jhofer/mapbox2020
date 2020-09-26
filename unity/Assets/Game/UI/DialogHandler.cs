@@ -5,7 +5,7 @@ using UnityEngine;
 public class DialogHandler : BaseSingleton<DialogHandler>
 {
     [SerializeField]
-    public Building building;
+    public BuildingContoller building;
 
     [SerializeField]
     public GameObject buildingDialog;
