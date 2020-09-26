@@ -1,14 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mapbox.Unity.Map;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class BuildingDialog : MonoBehaviour
+public class BaseUnitContoller : MonoBehaviour, IEntity, ISelectable
 {
     [SerializeField]
-    public BuildingController building;
+    AbstractMap map;
 
-    public Text txtValue;
+    [SerializeField]
+    float UnitHealth;
+
+    public void Select()
+    {
+        CamMovement.Instance.SetTarget(transform);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +25,6 @@ public class BuildingDialog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (building != null)
-        {
-            txtValue.text = building.BuildingValue+"$";
-        }
-       
+        
     }
 }

@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\unity\Assets\Game\DTOs\BuildingDto.cs" Link="BuildingDto.cs" />
-    <Compile Include="..\..\unity\Assets\Game\DTOs\LocationDto.cs" Link="LocationDto.cs" />
-    <Compile Include="..\..\unity\Assets\Game\DTOs\Message.cs" Link="Message.cs" />
-    <Compile Include="..\..\unity\Assets\Game\DTOs\UserDto.cs" Link="UserDto.cs" />
+    <Compile Include="..\..\unity\Assets\Game\Scripts\DTOs\BuildingDto.cs" Link="BuildingDto.cs" />
+    <Compile Include="..\..\unity\Assets\Game\Scripts\DTOs\LocationDto.cs" Link="LocationDto.cs" />
+    <Compile Include="..\..\unity\Assets\Game\Scripts\DTOs\Message.cs" Link="Message.cs" />
+    <Compile Include="..\..\unity\Assets\Game\Scripts\DTOs\UserDto.cs" Link="UserDto.cs" />
   </ItemGroup>
 
 </Project>

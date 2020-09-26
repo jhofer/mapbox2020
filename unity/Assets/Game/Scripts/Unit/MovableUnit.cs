@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class BuildingDialog : MonoBehaviour
+public class MovableUnit : BaseUnitContoller
 {
     [SerializeField]
-    public BuildingController building;
+    float UnitSpeed;
 
-    public Text txtValue;
+    [SerializeField]
+    UnitDirections directions;
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +19,6 @@ public class BuildingDialog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (building != null)
-        {
-            txtValue.text = building.BuildingValue+"$";
-        }
-       
+        
     }
 }
