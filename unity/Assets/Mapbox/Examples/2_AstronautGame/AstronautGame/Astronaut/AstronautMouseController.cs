@@ -84,7 +84,7 @@ namespace Mapbox.Examples
 					endPoint.position = hit.point;
 					MovementEndpointControl(hit.point, true);
 
-					directions.Query(GetPositions, startPoint, endPoint, map);
+				//	directions.Query(GetPositions, startPoint, endPoint, map);
                 }
                 else
                 {
