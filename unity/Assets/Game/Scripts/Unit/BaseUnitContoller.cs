@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using Mapbox.Unity.Map;
 using UnityEngine;
 
-public class BaseUnitContoller : MonoBehaviour, IEntity, ISelectable
+public class BaseUnitContoller : MonoBehaviour, ISelectable, IEntity
 {
-    [SerializeField]
-    AbstractMap map;
-
+    
     [SerializeField]
     float UnitHealth;
 
-    public void Select()
-    {
-        CamMovement.Instance.SetTarget(transform);
-    }
+    [SerializeField]
+    public UnitType UnitType;
+
+    public bool IsSelected { get => SelectionHandler.Instance.IsSelected(this); }
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,5 +26,10 @@ public class BaseUnitContoller : MonoBehaviour, IEntity, ISelectable
     void Update()
     {
         
+    }
+
+    public void Select()
+    {
+        SelectionHandler.Instance.Select(this);
     }
 }

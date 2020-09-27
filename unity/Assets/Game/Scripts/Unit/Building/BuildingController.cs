@@ -3,9 +3,9 @@ using Endgame.DTOs;
 using Mapbox.Unity.MeshGeneration.Components;
 using UnityEngine;
 
-public class BuildingController : MonoBehaviour, IEntity, ISelectable
+public class BuildingController : MonoBehaviour, ISelectable, IEntity
 {
-    private static BuildingController selectedBuilding = null;
+   
     private bool IsOwned  { get => this.dto.userId != null && this.dto.userId == Hub.Instance.UserId; }
     private bool IsEnemy  { get => this.dto.userId != null && this.dto.userId != Hub.Instance.UserId; }
     private Outline outline;
@@ -13,7 +13,7 @@ public class BuildingController : MonoBehaviour, IEntity, ISelectable
    
     private BuildingDto dto;
 
-    public bool IsSelected { get => this == selectedBuilding; }
+    public bool IsSelected { get => SelectionHandler.Instance.IsSelected(this); }
 
     public void UpdateBuilding(BuildingDto obj)
     {
@@ -21,14 +21,14 @@ public class BuildingController : MonoBehaviour, IEntity, ISelectable
 
     }
 
-    public static BuildingController Selected { get => DialogHandler.Instance.building; }
+   
     
     public string MapBoxId { get => this.dto.id; }
     public double BuildingValue { get => this.dto.value; }
 
     public void Claim()
     {
-        ResetSelection();
+      
         EventBus.Instance.Publish<ClaimBuildingRequest>(new ClaimBuildingRequest(this.MapBoxId));
         
       
@@ -85,24 +85,8 @@ public class BuildingController : MonoBehaviour, IEntity, ISelectable
         }
     }
 
-    public static void ResetSelection()
-    {
-        selectedBuilding = null;
-    }
-
     public void Select()
     {
-        if (IsSelected)
-        {
-            DialogHandler.Instance.building = null;
-            selectedBuilding = null;
-        }
-        else
-        {
-            DialogHandler.Instance.building = this;
-            selectedBuilding = this;
-        }
-      
-       
+        SelectionHandler.Instance.Select(this);
     }
 }

@@ -135,7 +135,7 @@ namespace Mapbox.Examples
 		{
 			prevPos = transform.localPosition;
 
-			float time = CalculateTime();
+			float time = TimeForDistance();
 			float t = 0;
 
 			StartCoroutine(LookAtNextPos());
@@ -153,7 +153,7 @@ namespace Mapbox.Examples
 			MoveToNextPlace();
 		}
 
-		float CalculateTime()
+		float TimeForDistance()
 		{
 			float timeToMove = 0;
 

@@ -29,9 +29,10 @@ using Mapbox.Map;
 
     
 
-        void Awake()
+        void Start()
 		{
-			_directions = MapboxAccess.Instance.Directions;
+            _map = MapUtils.Instance.map;
+            _directions = MapboxAccess.Instance.Directions;
             switch (unitType)
             {
                 case UnitType.Soldier:
@@ -46,12 +47,12 @@ using Mapbox.Map;
             }
         }
 
-		public void Query(Action<List<Vector3>> vecs, Transform start, Transform end, AbstractMap map)
+		public void Query(Action<List<Vector3>> vecs, Transform start, Transform end)
 		{
 			if (callback == null)
 				callback = vecs;
 
-			_map = map;
+			
 
 			var wp = new Vector2d[2];
 			wp[0] = start.GetGeoPosition(_map.CenterMercator, _map.WorldRelativeScale);

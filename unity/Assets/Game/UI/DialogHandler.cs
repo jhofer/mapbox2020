@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class DialogHandler : BaseSingleton<DialogHandler>
 {
-    [SerializeField]
-    public BuildingController building;
-
+   
     [SerializeField]
     public GameObject buildingDialog;
 
@@ -19,9 +17,9 @@ public class DialogHandler : BaseSingleton<DialogHandler>
     // Update is called once per frame
     void Update()
     {
-
-        buildingDialog.SetActive(building != null);
-        buildingDialog.GetComponent<BuildingDialog>().building = building;
-
+        var buildingCtrl = SelectionHandler.Instance.GetSelection<BuildingController>(); 
+        buildingDialog.SetActive(buildingCtrl != null);
+        buildingDialog.GetComponent<BuildingDialog>().building = buildingCtrl;
+       
     }
 }

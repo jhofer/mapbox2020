@@ -7,28 +7,16 @@ public class BtClaimBuilding : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
-     void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-     void Update()
-    {
-        
-    }
-
     public void BtnClaim()
     {
-        BuildingController.Selected.Claim();
-        DialogHandler.Instance.building = null;
+        SelectionHandler.Instance.GetSelection<BuildingController>().Claim();
+        SelectionHandler.Instance.ClearSelection();
 
     }
 
     public void BtnClose()
     {
-        BuildingController.ResetSelection();
-        DialogHandler.Instance.building = null;
+        SelectionHandler.Instance.ClearSelection();
+       
     }
 }

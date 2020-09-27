@@ -1,4 +1,6 @@
-﻿using Mapbox.Map;
+﻿using Mapbox.Directions;
+using Mapbox.Map;
+using Mapbox.Unity;
 using Mapbox.Unity.Location;
 using Mapbox.Unity.Map;
 using Mapbox.Unity.MeshGeneration.Data;
@@ -11,12 +13,20 @@ using UnityEngine;
 
 public class MapUtils : BaseSingleton<MapUtils>
 {
+    Directions directions;
+
     [SerializeField]
     public AbstractMap map;
+
+    public void Start()
+    {
+        directions = MapboxAccess.Instance.Directions;
+    }
+
     // Start is called before the first frame update
     public Vector3 GetVectorOnMap(double lat, double lon)
     {
-       
+
         //get tile ID
         var tileIDUnwrapped = TileCover.CoordinateToTileId(new Mapbox.Utils.Vector2d(lat, lon), (int)map.Zoom);
         var isTileLoaded = map.MapVisualizer.ActiveTiles.ContainsKey(tileIDUnwrapped);
@@ -25,12 +35,12 @@ public class MapUtils : BaseSingleton<MapUtils>
 
         if (isTileLoaded)
         {
-//Debug.Log("Tile Is active load height");
+            //Debug.Log("Tile Is active load height");
             height = GetHeight(lat, lon, tileIDUnwrapped);
         }
 
         var withHeight = new Vector3(location.x, height, location.z);
-            return withHeight;
+        return withHeight;
 
 
     }
@@ -72,4 +82,53 @@ public class MapUtils : BaseSingleton<MapUtils>
     {
         return GetVectorOnMap(location.LatitudeLongitude.x, location.LatitudeLongitude.y);
     }
+
+    public void GetWayPoints(UnitType unitType, Vector3 start, Vector3 end, Action<List<Vector3>> callback)
+    {
+        RoutingProfile routingProfile;
+        switch (unitType)
+        {
+            case UnitType.Soldier:
+                routingProfile = RoutingProfile.Walking;
+                break;
+            case UnitType.Vehicle:
+                routingProfile = RoutingProfile.Driving;
+                break;
+            default:
+                routingProfile = RoutingProfile.Driving;
+                break;
+        }
+
+        var wp = new Vector2d[2];
+        wp[0] = start.GetGeoPosition(map.CenterMercator, map.WorldRelativeScale);
+        wp[1] = end.GetGeoPosition(map.CenterMercator, map.WorldRelativeScale);
+        var _directionResource = new DirectionResource(wp, routingProfile);
+        _directionResource.Steps = true;
+        directions.Query(_directionResource, (DirectionsResponse response) =>
+        {
+
+            if (null == response.Routes || response.Routes.Count < 1)
+            {
+                callback(null);
+                return;
+            }
+            var dat = new List<Vector3>();
+            foreach (var point in response.Routes[0].Geometry)
+            {
+                var lat = point.x;
+                var lon = point.y;
+                Vector3 withHeight = MapUtils.Instance.GetVectorOnMap(lat, lon);
+
+                Debug.Log("add withHeight x:" + withHeight.x + " y:" + withHeight.y + " z:" + withHeight.z);
+                dat.Add(withHeight);
+            }
+
+            callback(dat);
+
+        });
+
+
+    }
+
+
 }

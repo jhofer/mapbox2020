@@ -3,6 +3,13 @@
 namespace Endgame.DTOs
 {
 
+    // TODO: move to own file
+    public enum UnitType
+    {
+        Vehicle,
+        Soldier,
+    }
+
     public class UnitDtos
     {
         public double health;

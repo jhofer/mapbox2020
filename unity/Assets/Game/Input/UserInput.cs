@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using DigitalRubyShared;
 using UnityEngine;
@@ -73,21 +73,36 @@ public class UserInput : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-              
+
                 var terrainLayer = 10;
                 var go = hit.transform.gameObject;
                 Debug.Log("Tap on " + go.name);
-                if (go.TryGetComponent<ISelectable>(out ISelectable unit))
+                ISelectable selectable;
+                if (TryGetSelectable(go, out selectable))
                 {
-                    Debug.Log("Iselectable gefunden");
-                    unit.Select();
+                    Debug.Log("Selectable gefunden");
+                    selectable.Select();
                 }
                 else
                 {
+                    var ctrl = SelectionHandler.Instance.GetSelection<BaseUnitContoller>();
+                    if (ctrl != null)
+                    {
+                        var mc = ctrl.GetComponent<MovementController>();
+                        Debug.Log("Set new target");
+                        mc.SetTarget(hit.point);
 
-                    Debug.Log("No selectable");
+
+                    }
+                    else
+                    {
+                        UnitSpawner.Instance.SpawnEntity(hit.point);
+                        Debug.Log("No selectable");
+
+                    }
+
                 }
-                
+
 
             }
             else
@@ -97,6 +112,14 @@ public class UserInput : MonoBehaviour
         }
     
       
+
+    }
+
+    private static bool TryGetSelectable(GameObject go, out ISelectable selectable)
+    {
+
+        selectable = go.GetComponentInParent<ISelectable>();
+        return selectable != null;
 
     }
 
