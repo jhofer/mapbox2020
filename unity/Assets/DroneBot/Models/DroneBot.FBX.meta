@@ -1,0 +1,286 @@
+fileFormatVersion: 2
+guid: c9e7887ed6574844f942515552dd25e7
+timeCreated: 1508200229
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: body
+    100002: Bone001
+    100004: Bone002
+    100006: Bone003
+    100008: Bone004
+    100010: Bone009
+    100012: Bone010
+    100014: Bone011
+    100016: Bone012
+    100018: Bone013
+    100020: Bone014
+    100022: Bone015
+    100024: Bone016
+    100026: Bone017
+    100028: Bone018
+    100030: Bone019
+    100032: Bone020
+    100034: Bone021
+    100036: Bone022
+    100038: Bone023
+    100040: Bone024
+    100042: Bone025
+    100044: Bone026
+    100046: Bone027
+    100048: Bone028
+    100050: Claws001
+    100052: Claws002
+    100054: ClawsL
+    100056: ClawsR
+    100058: cube027
+    100060: cube028
+    100062: cube029
+    100064: cube030
+    100066: cube23
+    100068: cube24
+    100070: cube25
+    100072: cube26
+    100074: DronBot
+    100076: //RootNode
+    100078: flame
+    100080: flame001
+    100082: flame002
+    100084: flame003
+    100086: IK Chain001
+    100088: IK Chain003
+    100090: IK Chain004
+    100092: IK Chain005
+    100094: IK Chain006
+    100096: IK Chain007
+    100098: IK Chain008
+    100100: IK Chain009
+    100102: partL
+    100104: partR
+    100106: soplo_body002
+    100108: soplo_body003
+    100110: soplo_body004
+    100112: soplo_body1
+    100114: soplo_L1
+    100116: soplo_L2
+    100118: soplo_R1
+    100120: soplo_R2
+    100122: sphere
+    100124: sphere001
+    100126: VRayLight001
+    100128: weapBodyL
+    100130: weapBodyR
+    100132: weapL
+    100134: weapR
+    100136: root
+    100138: main
+    100140: IK1
+    100142: IK2
+    400000: body
+    400002: Bone001
+    400004: Bone002
+    400006: Bone003
+    400008: Bone004
+    400010: Bone009
+    400012: Bone010
+    400014: Bone011
+    400016: Bone012
+    400018: Bone013
+    400020: Bone014
+    400022: Bone015
+    400024: Bone016
+    400026: Bone017
+    400028: Bone018
+    400030: Bone019
+    400032: Bone020
+    400034: Bone021
+    400036: Bone022
+    400038: Bone023
+    400040: Bone024
+    400042: Bone025
+    400044: Bone026
+    400046: Bone027
+    400048: Bone028
+    400050: Claws001
+    400052: Claws002
+    400054: ClawsL
+    400056: ClawsR
+    400058: cube027
+    400060: cube028
+    400062: cube029
+    400064: cube030
+    400066: cube23
+    400068: cube24
+    400070: cube25
+    400072: cube26
+    400074: DronBot
+    400076: //RootNode
+    400078: flame
+    400080: flame001
+    400082: flame002
+    400084: flame003
+    400086: IK Chain001
+    400088: IK Chain003
+    400090: IK Chain004
+    400092: IK Chain005
+    400094: IK Chain006
+    400096: IK Chain007
+    400098: IK Chain008
+    400100: IK Chain009
+    400102: partL
+    400104: partR
+    400106: soplo_body002
+    400108: soplo_body003
+    400110: soplo_body004
+    400112: soplo_body1
+    400114: soplo_L1
+    400116: soplo_L2
+    400118: soplo_R1
+    400120: soplo_R2
+    400122: sphere
+    400124: sphere001
+    400126: VRayLight001
+    400128: weapBodyL
+    400130: weapBodyR
+    400132: weapL
+    400134: weapR
+    400136: root
+    400138: main
+    400140: IK1
+    400142: IK2
+    2300000: body
+    2300002: cube027
+    2300004: cube028
+    2300006: cube029
+    2300008: cube030
+    2300010: cube23
+    2300012: cube24
+    2300014: cube25
+    2300016: cube26
+    2300018: flame
+    2300020: flame001
+    2300022: flame002
+    2300024: flame003
+    2300026: partL
+    2300028: partR
+    2300030: weapBodyL
+    2300032: weapBodyR
+    3300000: body
+    3300002: cube027
+    3300004: cube028
+    3300006: cube029
+    3300008: cube030
+    3300010: cube23
+    3300012: cube24
+    3300014: cube25
+    3300016: cube26
+    3300018: flame
+    3300020: flame001
+    3300022: flame002
+    3300024: flame003
+    3300026: partL
+    3300028: partR
+    3300030: weapBodyL
+    3300032: weapBodyR
+    4300000: partL
+    4300002: weapBodyL
+    4300004: body
+    4300006: cube26
+    4300008: cube24
+    4300010: cube23
+    4300012: cube25
+    4300014: sphere
+    4300016: soplo_body1
+    4300018: flame
+    4300020: weapBodyR
+    4300022: partR
+    4300024: soplo_body002
+    4300026: flame001
+    4300028: flame002
+    4300030: soplo_body004
+    4300032: flame003
+    4300034: soplo_body003
+    4300036: cube028
+    4300038: cube027
+    4300040: cube029
+    4300042: cube030
+    4300044: sphere001
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: soplo_body002
+    13700002: soplo_body003
+    13700004: soplo_body004
+    13700006: soplo_body1
+    13700008: sphere
+    13700010: sphere001
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
