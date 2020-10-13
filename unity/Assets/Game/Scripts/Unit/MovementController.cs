@@ -25,11 +25,13 @@ public class MovementController : MonoBehaviour
    
 
     bool interruption;
-  
+
+
+    public IAnimationController animationController;
 
     public void Start()
     {
-        
+        this.animationController = GetComponent<IAnimationController>();
     }
 
     public void SetTarget(Vector3 point)
@@ -63,6 +65,15 @@ public class MovementController : MonoBehaviour
 
         //MoveToNextPos();
         StartCoroutine(Moving());
+       
+        if (isMoving)
+        {
+            animationController.Start(Animations.Walk);
+        }
+        else
+        {
+            animationController.Start(Animations.Idle);
+        }
 
     }
 
@@ -74,7 +85,7 @@ public class MovementController : MonoBehaviour
         float t = 0;
        
         var time = TimeToTravleDistance();
-        var hasRoute = futurePositions != null;
+        var hasRoute = futurePositions != null && futurePositions.Count >0;
         while (hasRoute&&!interruption && t < 1 && Vector3.Distance(transform.position, nextPos)>0.1)
         {
             isMoving = true;
@@ -82,8 +93,10 @@ public class MovementController : MonoBehaviour
          
             t += Time.deltaTime / time; // 1/20 = 0.05... 20/20 = 10
             transform.position = Vector3.MoveTowards(transform.position,nextPos, UnitSpeed);
-
-            transform.LookAt(nextPos);
+            //var lookAt = nextPos* Vector3
+            Vector3 relativePos = nextPos - transform.position;
+            Quaternion toRotation = Quaternion.LookRotation(relativePos);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, UnitSpeed*100 * Time.deltaTime);
             yield return null;
         }
         futurePositions.Remove(nextPos);

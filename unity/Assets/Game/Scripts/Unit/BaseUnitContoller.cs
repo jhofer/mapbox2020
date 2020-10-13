@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mapbox.Unity.Map;
 using UnityEngine;
@@ -7,10 +8,14 @@ public class BaseUnitContoller : MonoBehaviour, ISelectable, IEntity
 {
     
     [SerializeField]
-    float UnitHealth;
+    public float UnitHealth;
+
+    [SerializeField]
+    public float WeaponRange;
 
     [SerializeField]
     public UnitType UnitType;
+    public GameObject Target;
 
     public bool IsSelected { get => SelectionHandler.Instance.IsSelected(this); }
 
@@ -31,5 +36,23 @@ public class BaseUnitContoller : MonoBehaviour, ISelectable, IEntity
     public void Select()
     {
         SelectionHandler.Instance.Select(this);
+    }
+
+    public void SetTarget(GameObject gameObject)
+    {
+        if (Target != gameObject)
+        {
+            if (gameObject == null)
+            {
+                this.Target = gameObject;
+                Debug.Log("Reset target");
+            }
+            else
+            {
+                this.Target = gameObject;
+                Debug.Log("Set target");
+            }
+        }
+      
     }
 }
